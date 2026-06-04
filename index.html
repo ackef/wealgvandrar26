@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>We Älgvandrar 2026 — Officiella Resultat</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #FFD700;
+    --silver: #C0C8D0;
+    --bronze: #CD7F32;
+    --neon-green: #39FF14;
+    --neon-pink: #FF2D78;
+    --neon-blue: #00F0FF;
+    --neon-orange: #FF6B00;
+    --bg: #050810;
+    --card-bg: #0D1220;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* Animated starfield background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 45%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 15%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 25% 35%, rgba(0,240,255,0.4) 0%, transparent 100%),
+      radial-gradient(2px 2px at 65% 70%, rgba(255,45,120,0.3) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Scanline overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ===== HERO HEADER ===== */
+  .hero {
+    text-align: center;
+    padding: 3rem 0 2rem;
+    position: relative;
+  }
+
+  .moose-icon {
+    font-size: 5rem;
+    display: block;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px var(--neon-green));
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-12px) rotate(2deg); }
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    letter-spacing: 0.05em;
+    line-height: 0.9;
+    margin: 0.5rem 0;
+    background: linear-gradient(135deg, var(--neon-green) 0%, var(--neon-blue) 40%, var(--neon-pink) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(57,255,20,0.3));
+    animation: titlePulse 4s ease-in-out infinite;
+  }
+
+  @keyframes titlePulse {
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(57,255,20,0.3)); }
+    50% { filter: drop-shadow(0 0 50px rgba(0,240,255,0.5)); }
+  }
+
+  .hero-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--neon-blue);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    opacity: 0.8;
+  }
+
+  .hero-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    color: var(--neon-orange);
+    letter-spacing: 0.3em;
+  }
+
+  /* Decorative divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    opacity: 0.5;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+  }
+  .divider span { font-size: 1.2rem; }
+
+  /* ===== PODIUM ===== */
+  .podium-section {
+    margin-bottom: 3rem;
+  }
+
+  .section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.2em;
+    color: var(--neon-orange);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .podium {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .podium-place {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .podium-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.1em;
+    text-align: center;
+  }
+
+  .podium-pts {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+  }
+
+  .podium-block {
+    width: 120px;
+    border-radius: 4px 4px 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .podium-block::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,0.03) 4px, rgba(255,255,255,0.03) 8px);
+  }
+
+  .podium-rank {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .podium-emoji { font-size: 2rem; }
+
+  .place-1 .podium-block {
+    height: 160px;
+    background: linear-gradient(180deg, #BF9700 0%, #7A5F00 100%);
+    box-shadow: 0 0 30px rgba(255,215,0,0.5), 0 0 60px rgba(255,215,0,0.2);
+    border: 1px solid var(--gold);
+  }
+  .place-1 .podium-name { color: var(--gold); text-shadow: 0 0 15px rgba(255,215,0,0.8); }
+  .place-1 .podium-pts { color: #FFE55C; }
+  .place-1 .podium-rank { color: var(--gold); }
+
+  .place-2 .podium-block {
+    height: 120px;
+    background: linear-gradient(180deg, #7A8490 0%, #3A4048 100%);
+    box-shadow: 0 0 20px rgba(192,200,208,0.3);
+    border: 1px solid var(--silver);
+  }
+  .place-2 .podium-name { color: var(--silver); }
+  .place-2 .podium-pts { color: #D8E0E8; }
+  .place-2 .podium-rank { color: var(--silver); }
+
+  .place-3 .podium-block {
+    height: 90px;
+    background: linear-gradient(180deg, #8B5A20 0%, #4A2E0A 100%);
+    box-shadow: 0 0 20px rgba(205,127,50,0.3);
+    border: 1px solid var(--bronze);
+  }
+  .place-3 .podium-name { color: var(--bronze); }
+  .place-3 .podium-pts { color: #E8A060; }
+  .place-3 .podium-rank { color: var(--bronze); }
+
+  /* ===== FULL RESULTS TABLE ===== */
+  .results-section {
+    margin-bottom: 3rem;
+  }
+
+  .result-row {
+    display: grid;
+    grid-template-columns: 44px 1fr 52px 52px 52px 52px 60px 52px 52px 52px 80px;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 0.4rem;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    opacity: 0;
+    transform: translateX(-30px);
+    animation: slideIn 0.4s forwards;
+  }
+
+  .result-row:hover {
+    border-color: rgba(0,240,255,0.3);
+    background: rgba(0,240,255,0.05) !important;
+    transform: translateX(4px) !important;
+  }
+
+  @keyframes slideIn {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .result-header {
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0 0.75rem 0.5rem;
+    display: grid;
+    grid-template-columns: 44px 1fr 52px 52px 52px 52px 60px 52px 52px 52px 80px;
+    gap: 0.3rem;
+  }
+
+  .col-rank { text-align: center; }
+  .col-name { }
+  .col-pts { text-align: right; font-size: 0.7rem; }
+
+  .rank-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    text-align: center;
+    opacity: 0.6;
+  }
+
+  .player-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+  }
+
+  .pts-cell {
+    text-align: right;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .pts-total {
+    text-align: right;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+  }
+
+  .pts-pos { color: var(--neon-green); }
+  .pts-neg { color: var(--neon-pink); }
+  .pts-zero { color: rgba(255,255,255,0.3); }
+
+  /* Row styles by rank */
+  .row-1 { background: linear-gradient(90deg, rgba(191,151,0,0.25) 0%, rgba(191,151,0,0.05) 100%); border-color: rgba(255,215,0,0.3) !important; }
+  .row-2 { background: linear-gradient(90deg, rgba(122,132,144,0.2) 0%, rgba(122,132,144,0.05) 100%); border-color: rgba(192,200,208,0.2) !important; }
+  .row-3 { background: linear-gradient(90deg, rgba(139,90,32,0.2) 0%, rgba(139,90,32,0.05) 100%); border-color: rgba(205,127,50,0.2) !important; }
+  .row-ai { background: linear-gradient(90deg, rgba(255,45,120,0.1) 0%, transparent 100%); }
+  .row-mid { background: rgba(255,255,255,0.03); }
+  .row-bottom { background: rgba(255,45,120,0.05); }
+
+  .ai-badge {
+    display: inline-block;
+    font-size: 0.55rem;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: rgba(255,45,120,0.3);
+    color: var(--neon-pink);
+    border: 1px solid rgba(255,45,120,0.4);
+    margin-left: 6px;
+    vertical-align: middle;
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== SCORE BAR ===== */
+  .score-bar-wrap {
+    position: relative;
+    height: 4px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 2px;
+    margin-top: 0.3rem;
+    overflow: hidden;
+  }
+  .score-bar {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+
+  /* ===== AI SHAME SECTION ===== */
+  .shame-section {
+    margin: 2rem 0;
+    border: 1px solid rgba(255,45,120,0.3);
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: rgba(255,45,120,0.05);
+    text-align: center;
+  }
+
+  .shame-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--neon-pink);
+    letter-spacing: 0.2em;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 20px rgba(255,45,120,0.5);
+  }
+
+  .shame-text {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.8;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* Glitch effect on title hover */
+  .hero-title:hover {
+    animation: glitch 0.3s steps(1) infinite;
+  }
+  @keyframes glitch {
+    0%   { text-shadow: 2px 0 var(--neon-pink), -2px 0 var(--neon-blue); }
+    25%  { text-shadow: -2px 0 var(--neon-pink), 2px 0 var(--neon-blue); }
+    50%  { text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--neon-blue); }
+    75%  { text-shadow: -2px 2px var(--neon-pink), 2px -2px var(--neon-blue); }
+    100% { text-shadow: 2px 0 var(--neon-pink), -2px 0 var(--neon-blue); }
+  }
+
+  @media (max-width: 700px) {
+    .result-row, .result-header {
+      grid-template-columns: 36px 1fr 60px 75px;
+    }
+    .col-q1, .col-q2a, .col-q2b, .col-q3, .col-q4, .col-q4b, .col-q5, .col-q6 { display: none; }
+    .podium-block { width: 90px; }
+    .podium-name { font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="moose-icon">🫎</span>
+    <div class="hero-year">OFFICIELLA RESULTAT</div>
+    <h1 class="hero-title">WE<br>ÄLGVANDRAR<br>2026</h1>
+    <div class="hero-sub">ÄPS åt folket</div>
+  </div>
+
+  <div class="divider"><span>🏊</span></div>
+
+  <!-- ÄLGSIMNING ANIMATION -->
+  <div style="position:relative;width:100vw;left:50%;transform:translateX(-50%);margin-bottom:2rem;overflow:hidden;">
+    <canvas id="riverCanvas" style="display:block;width:100%;"></canvas>
+  </div>
+
+  <div class="divider"><span>💡</span></div>
+
+  <!-- INSIGHTS -->
+  <div class="results-section">
+    <div class="section-label">📊 Insikter från tävlingen</div>
+    <div id="insights-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;"></div>
+    <div id="insights-wide" style="display:grid;grid-template-columns:1fr;gap:1rem;margin-bottom:2rem;"></div>
+  </div>
+
+  <div class="divider"><span>🎯</span></div>
+
+  <!-- TARGET ANIMATION — placed after insights -->
+  <div style="position:relative;width:100vw;left:50%;transform:translateX(-50%);margin-bottom:2rem;overflow:hidden;">
+    <canvas id="targetCanvas" style="display:block;width:100%;"></canvas>
+  </div>
+
+  <!-- AI SHAME -->
+  <div class="shame-section" id="ai-shame"></div>
+
+  <div class="divider"><span>🏆</span></div>
+
+  <!-- PODIUM -->
+  <div class="podium-section">
+    <div class="section-label">🏆 Prispallen 🏆</div>
+    <div class="podium" id="podium"></div>
+  </div>
+
+  <div class="divider"><span>📊</span></div>
+
+  <!-- FULL RESULTS -->
+  <div class="results-section">
+    <div class="section-label">Fullständiga Resultat</div>
+    <div class="result-header">
+      <span class="col-rank">Plats</span>
+      <span>Namn</span>
+      <span class="col-pts col-q1" title="F1: Tidpunkt för första älg">F1<br><span style="opacity:0.5;font-size:9px">tid</span></span>
+      <span class="col-pts col-q2a" title="F2a: Antal älgar 24/4">F2a<br><span style="opacity:0.5;font-size:9px">24/4</span></span>
+      <span class="col-pts col-q2b" title="F2b: Antal älgar 27/4">F2b<br><span style="opacity:0.5;font-size:9px">27/4</span></span>
+      <span class="col-pts col-q3" title="F3: Sista 48h">F3<br><span style="opacity:0.5;font-size:9px">48h</span></span>
+      <span class="col-pts col-q4" title="F4: Totalt antal älgar">F4<br><span style="opacity:0.5;font-size:9px">totalt</span></span>
+      <span class="col-pts col-q4b" title="F4b: AI-rankingsordning">F4b<br><span style="opacity:0.5;font-size:9px">rank</span></span>
+      <span class="col-pts col-q5" title="F5: Vilka AI positiva?">F5<br><span style="opacity:0.5;font-size:9px">pos AI</span></span>
+      <span class="col-pts col-q6" title="F6: AI slår människa?">F6<br><span style="opacity:0.5;font-size:9px">AI>hum</span></span>
+      <span class="col-pts" style="text-align:right">TOTALT</span>
+    </div>
+    <div id="results-list"></div>
+  </div>
+
+  <div class="divider"><span>🫎</span></div>
+
+  <div class="footer">
+    Älgsimning 2025 · Officiella ÄPS-tabellen · Genererad med hjälp av Claude Sonnet
+  </div>
+</div>
+
+<script>
+// ===== ALL SCORE DATA =====
+const CORRECT_DT = new Date(2025,3,21,10,35);
+
+function parseDT(s){
+  s=s.trim();
+  const pp=[/(\d{1,2})\/(\d{1,2})\s+(\d{1,2}):(\d{2})/,/(\d{1,2})\/(\d{1,2})\s+kl\s+(\d{1,2}):(\d{2})/i,/(\d{1,2})\s+april\s+(\d{1,2}):(\d{2})/i];
+  for(const p of pp){const m=s.match(p);if(m){let day,mon,hh,mm;if(p.source.includes('april')){day=+m[1];mon=4;hh=+m[2];mm=+m[3];}else{day=+m[1];mon=+m[2];hh=+m[3];mm=+m[4];}return new Date(2025,mon-1,day,hh,mm);}}return null;
+}
+function q1base(s){const dt=parseDT(s);if(!dt)return{pts:0,dt:null,absDays:999};const d=Math.abs(Math.round((dt-CORRECT_DT)/86400000));return{pts:d===0?5:-2*d,dt,absDays:d};}
+function sQ2a(v){const d=Math.abs(v-14);if(d===0)return 5;if(d<=3)return 3;return -2*Math.floor(d/5);}
+function sQ2b(v){const d=Math.abs(v-32);if(d===0)return 10;if(d<=3)return 5;return -2*Math.floor(d/5);}
+function sQ3(v){const d=Math.abs(v-0);if(d===0)return 10;if(d<=3)return 5;return -2*Math.floor(d/5);}
+function sQ4(v){const d=Math.abs(v-41);if(d===0)return 30;if(d<=2)return 20;if(d<=5)return 10;return -5*Math.floor(d/5);}
+function sQ5(s){
+  const sl=s.toLowerCase();
+  const picked=[];
+  if(sl.includes('gemini'))picked.push('Gemini');
+  if(sl.includes('deepseek'))picked.push('DeepSeek');
+  if(sl.includes('chatgpt')||sl.includes('chat gpt'))picked.push('Chat GPT');
+  if(sl.includes('claude'))picked.push('Claude');
+  // facit: none positive → each picked = -3, each not picked = +3
+  let pts=0;
+  ['Gemini','Chat GPT','DeepSeek','Claude'].forEach(ai=>{pts+=picked.includes(ai)?-3:3;});
+  return pts;
+}
+function sQ6(s){return(s.trim().toLowerCase()==='nej'||s.trim().toLowerCase()==='no')?5:0;}
+
+const allP=[
+  {name:'Gemini',           ai:true,  q1:'22/04 18:32',q2a:3, q2b:12, q3:15,q4:64,  q4b:0,q5:'Gemini, Claude, ChatGPT',    q6:'Ja'},
+  {name:'Chat GPT',         ai:true,  q1:'18/4 23:40', q2a:27,q2b:138,q3:112,q4:287, q4b:0,q5:'Claude, Gemini',             q6:'Nej'},
+  {name:'DeepSeek',         ai:true,  q1:'19/4 06:15', q2a:18,q2b:34, q3:9, q4:91,  q4b:0,q5:'Ingen',                      q6:'Nej'},
+  {name:'Claude',           ai:true,  q1:'24/04 06:30',q2a:12,q2b:47, q3:18,q4:312, q4b:0,q5:'Ingen',                      q6:'Ja'},
+  {name:'Andolf',           ai:false, q1:'24/4 08:23', q2a:3, q2b:28, q3:6, q4:59,  q4b:0,q5:'Ingen',                      q6:'Nej'},
+  {name:'Anna',             ai:false, q1:'23/04 05:15',q2a:5, q2b:21, q3:15,q4:67,  q4b:0,q5:'Ingen',                      q6:'Nej'},
+  {name:'Lopez',            ai:false, q1:'01/05 12:00',q2a:0, q2b:0,  q3:47,q4:94,  q4b:0,q5:'GEMINI',                     q6:'Nej'},
+  {name:'Axel',             ai:false, q1:'21/4 08:24', q2a:5, q2b:31, q3:0, q4:62,  q4b:0,q5:'Ingen',                      q6:'Nej'},
+  {name:'Erik',             ai:false, q1:'22/04 06:43',q2a:8, q2b:15, q3:6, q4:87,  q4b:0,q5:'Ingen',                      q6:'Ja'},
+  {name:'Christopher',      ai:false, q1:'25/4 11:05', q2a:0, q2b:6,  q3:17,q4:63,  q4b:0,q5:'GEMINI',                     q6:'Nej'},
+  {name:'Filip Joelsson',   ai:false, q1:'23/04 20:17',q2a:5, q2b:9,  q3:13,q4:43,  q4b:0,q5:'DEEPSEEK',                   q6:'Ja'},
+  {name:'Chuma',            ai:false, q1:'24/4 13:21', q2a:0, q2b:11, q3:7, q4:25,  q4b:0,q5:'CHATGPT',                    q6:'Ja'},
+  {name:'Linus',            ai:false, q1:'22/04 09:48',q2a:8, q2b:14, q3:9, q4:76,  q4b:0,q5:'CHATGPT',                    q6:'nej'},
+  {name:'Frida',            ai:false, q1:'21/04 19:34',q2a:12,q2b:23, q3:7, q4:64,  q4b:0,q5:'Ingen',                      q6:'nej'},
+  {name:'Simon Emanuelsson',ai:false, q1:'22/04 14:56',q2a:4, q2b:17, q3:19,q4:57,  q4b:0,q5:'CLAUDE',                     q6:'Ja'},
+];
+
+// Time bonuses
+const q1r=allP.map(p=>{const r=q1base(p.q1);return{...r,name:p.name};});
+const corr=q1r.filter(r=>r.absDays===0&&r.dt).sort((a,b)=>Math.abs(a.dt-CORRECT_DT)-Math.abs(b.dt-CORRECT_DT));
+const tBonus={};if(corr[0])tBonus[corr[0].name]=5;if(corr[1])tBonus[corr[1].name]=3;
+
+const results=allP.map(p=>{
+  const f1=q1base(p.q1).pts+(tBonus[p.name]||0);
+  const f2a=sQ2a(p.q2a), f2b=sQ2b(p.q2b), f3=sQ3(p.q3), f4=sQ4(p.q4);
+  const f5=sQ5(p.q5), f6=sQ6(p.q6);
+  const total=f1+f2a+f2b+f3+f4+p.q4b+f5+f6;
+  return{...p,f1,f2a,f2b,f3,f4,f5,f6,total};
+});
+
+results.sort((a,b)=>b.total-a.total);
+
+// Find score range for bar scaling
+const maxPts=Math.max(...results.map(r=>Math.abs(r.total)),1);
+
+function fmtPts(n, cls=true){
+  if(!cls) return(n>0?'+':'')+n;
+  const c=n>0?'pts-pos':n<0?'pts-neg':'pts-zero';
+  return`<span class="${c}">${n>0?'+':''}${n}</span>`;
+}
+
+// ===== PODIUM =====
+const podium=document.getElementById('podium');
+const top3=[results[1],results[0],results[2]]; // silver, gold, bronze order
+const podiumData=[
+  {rank:2, emoji:'🥈', height:'120px'},
+  {rank:1, emoji:'🥇', height:'160px'},
+  {rank:3, emoji:'🥉', height:'90px'},
+];
+top3.forEach((p,i)=>{
+  const pd=podiumData[i];
+  const placeClass=`place-${pd.rank}`;
+  podium.innerHTML+=`
+    <div class="podium-place ${placeClass}">
+      <div class="podium-name">${p.name}${p.ai?'<span class="ai-badge">AI</span>':''}</div>
+      <div class="podium-pts">${fmtPts(p.total,false)} ÄPS</div>
+      <div class="podium-block">
+        <div class="podium-emoji">${pd.emoji}</div>
+        <div class="podium-rank">${pd.rank}</div>
+      </div>
+    </div>`;
+});
+
+// ===== FULL RESULTS =====
+const list=document.getElementById('results-list');
+results.forEach((p,i)=>{
+  const rank=i+1;
+  let rowClass='row-mid';
+  if(rank===1)rowClass='row-1';
+  else if(rank===2)rowClass='row-2';
+  else if(rank===3)rowClass='row-3';
+  else if(p.ai)rowClass='row-ai';
+  else if(rank>results.length-3)rowClass='row-bottom';
+
+  const delay=(i*0.06).toFixed(2);
+  const barW=Math.round((Math.abs(p.total)/maxPts)*100);
+  const barColor=p.total>=0?'#39FF14':'#FF2D78';
+
+  list.innerHTML+=`
+    <div class="result-row ${rowClass}" style="animation-delay:${delay}s">
+      <div class="rank-num col-rank">${rank}</div>
+      <div class="player-name">${p.name}${p.ai?`<span class="ai-badge">AI</span>`:''}</div>
+      <div class="pts-cell col-q1">${fmtPts(p.f1)}</div>
+      <div class="pts-cell col-q2a">${fmtPts(p.f2a)}</div>
+      <div class="pts-cell col-q2b">${fmtPts(p.f2b)}</div>
+      <div class="pts-cell col-q3">${fmtPts(p.f3)}</div>
+      <div class="pts-cell col-q4">${fmtPts(p.f4)}</div>
+      <div class="pts-cell col-q4b">${fmtPts(p.q4b)}</div>
+      <div class="pts-cell col-q5">${fmtPts(p.f5)}</div>
+      <div class="pts-cell col-q6">${fmtPts(p.f6)}</div>
+      <div class="pts-total ${p.total>0?'pts-pos':p.total<0?'pts-neg':'pts-zero'}">${p.total>0?'+':''}${p.total}</div>
+    </div>`;
+});
+
+// ===== AI SHAME =====
+const aiResults=results.filter(r=>r.ai).sort((a,b)=>b.total-a.total);
+const humanResults=results.filter(r=>!r.ai).sort((a,b)=>b.total-a.total);
+const bestAI=aiResults[0], worstAI=aiResults[aiResults.length-1];
+const bestHuman=humanResults[0], worstHuman=humanResults[humanResults.length-1];
+const anyAIBeatsHuman=aiResults.some(ai=>humanResults.some(h=>ai.total>h.total));
+
+const shame=document.getElementById('ai-shame');
+
+// Compute who each AI beat
+const deepseekBeaten = humanResults.filter(h=>results.find(r=>r.name==='DeepSeek').total > h.total).sort((a,b)=>b.total-a.total);
+const geminiBeaten   = humanResults.filter(h=>results.find(r=>r.name==='Gemini').total   > h.total).sort((a,b)=>b.total-a.total);
+const deepseekTotal  = results.find(r=>r.name==='DeepSeek').total;
+const geminiTotal    = results.find(r=>r.name==='Gemini').total;
+
+shame.innerHTML=`
+  <div class="shame-title">🤖 AI VS MÄNNISKA 🧠</div>
+  <div class="shame-text">
+    Bästa AI: <strong style="color:var(--neon-blue)">${bestAI.name}</strong> med ${bestAI.total>0?'+':''}${bestAI.total} ÄPS &nbsp;|&nbsp;
+    Sämsta AI: <strong style="color:var(--neon-pink)">${worstAI.name}</strong> med ${worstAI.total} ÄPS<br>
+    Bästa människa: <strong style="color:var(--neon-green)">${bestHuman.name}</strong> med ${bestHuman.total>0?'+':''}${bestHuman.total} ÄPS<br><br>
+
+    <span style="color:var(--neon-orange);font-size:1.05rem">⚡ Två AI:er lyckades slå minst en människa — men knappt.</span><br><br>
+
+    <span style="color:var(--neon-blue)">🤖 DeepSeek (${deepseekTotal} ÄPS)</span> slog <strong style="color:#fff">${deepseekBeaten.length} människor</strong>:
+    ${deepseekBeaten.map(h=>`<span style="color:rgba(255,255,255,0.6)">${h.name} (${h.total>0?'+':''}${h.total})</span>`).join(', ')}.<br>
+    <span style="font-size:0.68rem;color:rgba(255,255,255,0.35)">DeepSeek var den enda AI som svarade rätt på F6 (Nej) och tog sig igenom tack vare disciplinerade bonussvar — inte sina älggissningar.</span><br><br>
+
+    <span style="color:#c77dff">🤖 Gemini (${geminiTotal} ÄPS)</span> slog <strong style="color:#fff">${geminiBeaten.length} människa</strong>:
+    ${geminiBeaten.map(h=>`<span style="color:rgba(255,255,255,0.6)">${h.name} (${h.total>0?'+':''}${h.total})</span>`).join(', ')}.<br>
+    <span style="font-size:0.68rem;color:rgba(255,255,255,0.35)">Gemini klarade sig bäst av AI:erna på volymfrågorna men tappade bonuspoäng på att tro för mycket på sig själv — svarade "Ja" på F6 och angav egna namn på F5.</span><br><br>
+
+    <span style="color:var(--neon-pink)">🤖 Claude och Chat GPT</span> slog ingen enda människa. Claude gissade 312 totala älgar. Chat GPT gissade 287. Facit var 41.<br><br>
+
+    <span style="opacity:0.4;font-size:0.65rem">FÖRRA ÅRETS BÄSTA GPT: −409.5 ÄPS &nbsp;|&nbsp; SÄMSTA GPT: −1819 ÄPS &nbsp;|&nbsp; 2026: DeepSeek slår faktiskt 4 av 11 människor — framsteg?</span>
+  </div>`;
+
+// ===== INSIGHTS =====
+const insightsGrid = document.getElementById('insights-grid');
+
+// Insight 1: Fråga 4 var avgörande — spridningen
+const f4scores = results.map(r=>({name:r.name,pts:r.f4,ai:r.ai}));
+const bestF4 = f4scores.reduce((a,b)=>a.pts>b.pts?a:b);
+const worstF4 = f4scores.reduce((a,b)=>a.pts<b.pts?a:b);
+const avgF4 = Math.round(f4scores.reduce((s,r)=>s+r.pts,0)/f4scores.length);
+
+// Insight 2: Optimism vs pessimism på fråga 4 — who over/underestimated
+const overestimators = results.filter(r=>r.q4>41).sort((a,b)=>b.q4-a.q4);
+const underestimators = results.filter(r=>r.q4<41).sort((a,b)=>a.q4-b.q4);
+const avgGuessQ4 = Math.round(results.reduce((s,r)=>s+r.q4,0)/results.length);
+
+insightsGrid.innerHTML = `
+<div style="background:rgba(0,240,255,0.05);border:1px solid rgba(0,240,255,0.2);border-radius:8px;padding:1.25rem;">
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--neon-blue);letter-spacing:0.15em;margin-bottom:0.75rem">
+    ⚡ FRÅGA 4 TUNGA ÄPS
+  </div>
+  <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);line-height:1.9">
+    Med max <strong style="color:#fff">30 ÄPS</strong> att hämta var fråga 4 (totalt antal älgar = 41) den tyngsta enskilda frågan — och den som sänkte flest.<br><br>
+    Snittgissning bland alla deltagare: <strong style="color:var(--neon-orange)">${avgGuessQ4} älgar</strong> — mer än dubbelt för mycket.<br><br>
+    <span style="color:var(--neon-pink)">Värst: ${worstF4.name}${worstF4.ai?' (AI)':''} gissade ${results.find(r=>r.name===worstF4.name).q4} → ${worstF4.pts} ÄPS</span><br>
+    <span style="color:var(--neon-green)">Bäst: ${bestF4.name}${bestF4.ai?' (AI)':''} → ${bestF4.pts>0?'+':''}${bestF4.pts} ÄPS</span><br><br>
+    Snittpoäng på F4: <strong style="color:var(--neon-blue)">${avgF4>0?'+':''}${avgF4} ÄPS</strong>
+  </div>
+</div>
+
+<div style="background:rgba(57,255,20,0.05);border:1px solid rgba(57,255,20,0.2);border-radius:8px;padding:1.25rem;">
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--neon-green);letter-spacing:0.15em;margin-bottom:0.75rem">
+    🧠 AI:ER KONTRA VERKLIGHETEN
+  </div>
+  <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);line-height:1.9">
+    AI-modellerna gissade i snitt <strong style="color:var(--neon-pink)">${Math.round([64,287,91,312].reduce((a,b)=>a+b,0)/4)} älgar totalt</strong> — mot facit 41. Det är <strong style="color:#fff">${Math.round(([64,287,91,312].reduce((a,b)=>a+b,0)/4)/41*100-100)}% överskattning</strong>.<br><br>
+    Trots det klarade sig Gemini bäst av alla AI:er med <strong style="color:var(--neon-blue)">${aiResults[0].total} ÄPS</strong> — tack vare måttligare gissningar.<br><br>
+    Ironiskt nog fick <strong style="color:var(--neon-pink)">Claude</strong> (den AI som byggde denna presentation) <strong style="color:var(--neon-pink)">sämst placering bland AI:erna</strong> med ${results.find(r=>r.name==='Claude').total} ÄPS — drivet av en gissning på <em>312 totala älgar</em>.<br><br>
+    <span style="color:var(--neon-green)">Människorna vann överlägset. 🏆</span>
+  </div>
+</div>`;
+
+// ===== 3 NEW AI VS HUMAN INSIGHTS =====
+const insightsWide = document.getElementById('insights-wide');
+
+// Compute data
+const aiNames = ['Gemini','Chat GPT','DeepSeek','Claude'];
+const aiPlayers = results.filter(r=>r.ai);
+const humanPlayers = results.filter(r=>!r.ai);
+
+// Insight A: Confidence calibration — who was furthest from correct on TIMING (Q1)
+// Positive = guessed later, negative = guessed earlier
+const allWithDayDiff = results.map(r=>{
+  const dt = parseDT(r.q1);
+  if(!dt) return {...r, dayDiff: null};
+  const diff = Math.round((dt - CORRECT_DT) / 86400000);
+  return {...r, dayDiff: diff};
+}).filter(r=>r.dayDiff!==null);
+
+const aiDayDiffs = allWithDayDiff.filter(r=>r.ai).map(r=>r.dayDiff);
+const humanDayDiffs = allWithDayDiff.filter(r=>!r.ai).map(r=>r.dayDiff);
+const avgAiDiff = (aiDayDiffs.reduce((a,b)=>a+b,0)/aiDayDiffs.length).toFixed(1);
+const avgHumanDiff = (humanDayDiffs.reduce((a,b)=>a+b,0)/humanDayDiffs.length).toFixed(1);
+const aiTooLate = aiDayDiffs.filter(d=>d>0).length;
+const humanTooLate = humanDayDiffs.filter(d=>d>0).length;
+const aiTooEarly = aiDayDiffs.filter(d=>d<0).length;
+const humanTooEarly = humanDayDiffs.filter(d=>d<0).length;
+
+// Build mini bar comparison rows
+function barRow(label, aiVal, humanVal, maxVal, colorAI, colorH, suffix='') {
+  const aw = Math.round(Math.abs(aiVal)/maxVal*100);
+  const hw = Math.round(Math.abs(humanVal)/maxVal*100);
+  return `
+  <div style="margin-bottom:0.7rem">
+    <div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.1em;margin-bottom:3px">${label}</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+      <span style="font-size:10px;color:${colorAI};width:55px;text-align:right">🤖 AI</span>
+      <div style="flex:1;background:rgba(255,255,255,0.06);border-radius:2px;height:10px">
+        <div style="width:${aw}%;background:${colorAI};height:100%;border-radius:2px;transition:width 1s"></div>
+      </div>
+      <span style="font-size:11px;color:${colorAI};min-width:50px">${aiVal}${suffix}</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-size:10px;color:${colorH};width:55px;text-align:right">🧠 Människa</span>
+      <div style="flex:1;background:rgba(255,255,255,0.06);border-radius:2px;height:10px">
+        <div style="width:${hw}%;background:${colorH};height:100%;border-radius:2px;transition:width 1s"></div>
+      </div>
+      <span style="font-size:11px;color:${colorH};min-width:50px">${humanVal}${suffix}</span>
+    </div>
+  </div>`;
+}
+
+// Avg total scores
+const avgAiTotal = Math.round(aiPlayers.reduce((s,r)=>s+r.total,0)/aiPlayers.length);
+const avgHumanTotal = Math.round(humanPlayers.reduce((s,r)=>s+r.total,0)/humanPlayers.length);
+
+// Avg Q2a guess
+const avgAiQ2a = Math.round(aiPlayers.reduce((s,r)=>s+r.q2a,0)/aiPlayers.length);
+const avgHumanQ2a = Math.round(humanPlayers.reduce((s,r)=>s+r.q2a,0)/humanPlayers.length);
+
+// Avg Q3 guess (rätt=0)
+const avgAiQ3 = Math.round(aiPlayers.reduce((s,r)=>s+r.q3,0)/aiPlayers.length);
+const avgHumanQ3 = Math.round(humanPlayers.reduce((s,r)=>s+r.q3,0)/humanPlayers.length);
+
+// F5 bonus: how many ÄPS did AI vs humans average on the bonus questions
+const avgAiBonus = Math.round(aiPlayers.reduce((s,r)=>s+r.f5+r.f6,0)/aiPlayers.length);
+const avgHumanBonus = Math.round(humanPlayers.reduce((s,r)=>s+r.f5+r.f6,0)/humanPlayers.length);
+
+insightsWide.innerHTML = `
+
+<!-- INSIGHT A: Timing bias -->
+<div style="background:rgba(255,107,0,0.05);border:1px solid rgba(255,107,0,0.25);border-radius:8px;padding:1.25rem;">
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--neon-orange);letter-spacing:0.15em;margin-bottom:0.75rem">
+    🕐 INSIKT 1 — AI:ERNA DELADE SIG I TIDSGISSNINGAR
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+    <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);line-height:1.9">
+      AI-modellerna var splittrade på tidsfrågan: <strong style="color:var(--neon-pink)">Chat GPT (18/4) och DeepSeek (19/4)</strong> gissade 3 resp. 2 dagar <em>för tidigt</em>, medan <strong style="color:var(--neon-orange)">Gemini (22/4) och Claude (24/4)</strong> gissade 1 resp. 3 dagar <em>för sent</em>. Snittavvikelsen för AI hamnade på <strong style="color:#fff">${avgAiDiff} dagar</strong> — dragen mot plus av Claude.<br><br>
+      Människorna var ännu mer spridda — ${humanTooEarly} av ${humanPlayers.length} gissade för tidigt och ${humanTooLate} för sent — med ett snitt på <strong style="color:var(--neon-green)">${avgHumanDiff} dagar</strong>.<br><br>
+      Axel och Frida var de enda som träffade rätt datum (21/4) och delade på tidbonusen om +5 och +3 ÄPS. Ingen AI kom ens nära rätt dag.
+    </div>
+    <div>
+      ${barRow('Snitt dagars avvikelse (abs)', Math.abs(avgAiDiff), Math.abs(avgHumanDiff), 12, '#FF2D78', '#39FF14', ' dagar')}
+      ${barRow('Antal som gissade FÖR SENT', aiTooLate, humanTooLate, 11, '#FF6B00', '#00F0FF', ' st')}
+      ${barRow('Antal som gissade FÖR TIDIGT', aiTooEarly, humanTooEarly, 11, '#FF6B00', '#00F0FF', ' st')}
+    </div>
+  </div>
+</div>
+
+<!-- INSIGHT B: Systematic overconfidence in elk volume -->
+<div style="background:rgba(255,45,120,0.05);border:1px solid rgba(255,45,120,0.25);border-radius:8px;padding:1.25rem;">
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--neon-pink);letter-spacing:0.15em;margin-bottom:0.75rem">
+    📈 INSIKT 2 — AI ÖVERSKATTADE KONSEKVENT, MÄNNISKOR VAR SPRETIGARE
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+    <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);line-height:1.9">
+      På varje volumenfråga (2a, 2b, 4) gissade AI högt — systematiskt och enhetligt. Människorna gissade mer varierat: några för högt, några för lågt, men snittgissningarna var klart mer jordnära.<br><br>
+      Snitt älgar vid <strong style="color:#fff">24/4</strong> (facit 14): AI gissade <strong style="color:var(--neon-pink)">${avgAiQ2a}</strong>, människor <strong style="color:var(--neon-green)">${avgHumanQ2a}</strong>.<br><br>
+      På <strong style="color:#fff">sista 48h</strong> (facit 0): AI snitt <strong style="color:var(--neon-pink)">${avgAiQ3} älgar</strong>, människor <strong style="color:var(--neon-green)">${avgHumanQ3} älgar</strong>. Hela <strong style="color:#fff">7 av 11 människor</strong> gissade rätt (0) — ingen AI gjorde det.
+    </div>
+    <div>
+      ${barRow('Snittgissning F2a (facit=14)', avgAiQ2a, avgHumanQ2a, 30, '#FF2D78', '#39FF14', ' älgar')}
+      ${barRow('Snittgissning F3 sista 48h (facit=0)', avgAiQ3, avgHumanQ3, 60, '#FF2D78', '#39FF14', ' älgar')}
+      ${barRow('Snittpoäng totalt', Math.abs(avgAiTotal), Math.abs(avgHumanTotal), Math.max(Math.abs(avgAiTotal),Math.abs(avgHumanTotal),1), '#FF2D78', '#39FF14', ' ÄPS')}
+    </div>
+  </div>
+</div>
+
+<!-- INSIGHT C: Bonus questions — who knew themselves? -->
+<div style="background:rgba(0,240,255,0.05);border:1px solid rgba(0,240,255,0.25);border-radius:8px;padding:1.25rem;">
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--neon-blue);letter-spacing:0.15em;margin-bottom:0.75rem">
+    🪞 INSIKT 3 — AI:ERNA VISSTE INTE ATT DE SKULLE FÖRLORA
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+    <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);line-height:1.9">
+      På bonusfrågorna (F5 + F6) om AI:ernas egna prestationer visade sig en markant skillnad i självkännedom.<br><br>
+      <strong style="color:var(--neon-pink)">F5 (vilka AI:er får positiv ÄPS?):</strong> Gemini och ChatGPT trodde på sig själva och angav egna namn — det kostade −3 ÄPS per felaktig gissning. DeepSeek och Claude svarade "Ingen" och fick max +12 ÄPS.<br><br>
+      <strong style="color:var(--neon-pink)">F6 (slår någon AI en människa?):</strong> Gemini och Claude svarade "Ja" — fel. De som svarade "Nej" fick +5 ÄPS. Bland människorna svarade ${humanPlayers.filter(r=>{const s=r.q6.trim().toLowerCase();return s==='nej'||s==='no';}).length} av ${humanPlayers.length} rätt (Nej).<br><br>
+      Snitt bonuspoäng: AI <strong style="color:var(--neon-pink)">${avgAiBonus>0?'+':''}${avgAiBonus} ÄPS</strong> vs människor <strong style="color:var(--neon-green)">${avgHumanBonus>0?'+':''}${avgHumanBonus} ÄPS</strong>.
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.75rem;justify-content:center">
+      ${barRow('Snitt bonuspoäng F5+F6', Math.abs(avgAiBonus), Math.abs(avgHumanBonus), Math.max(Math.abs(avgAiBonus),Math.abs(avgHumanBonus),1), '#FF2D78', '#39FF14', ' ÄPS')}
+      <div style="font-size:10px;color:rgba(255,255,255,0.35);line-height:1.7;margin-top:0.5rem">
+        AI som trodde att de var positiva: Gemini, ChatGPT<br>
+        AI som visste att de skulle förlora mot människor: DeepSeek<br>
+        AI som trodde de kunde slå en människa: Gemini, Claude<br>
+        <span style="color:rgba(57,255,20,0.5)">Rätt självbild: DeepSeek (−3 på F5, +5 på F6 = +2 bonus netto)</span>
+      </div>
+    </div>
+  </div>
+</div>`;
+
+// ===== INSIGHT 4 =====
+const insightExtra = document.createElement('div');
+insightExtra.style.cssText = 'margin-bottom:2rem';
+insightExtra.innerHTML = `
+<div style="background:rgba(160,32,240,0.07);border:1px solid rgba(160,32,240,0.3);border-radius:8px;padding:1.25rem;">
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#c77dff;letter-spacing:0.15em;margin-bottom:0.75rem">
+    🎯 INSIKT 4 — AI:ERNA SKÖT I OTAKT, MÄNNISKORNA KLUSTRADE RÄTT
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:center">
+    <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);line-height:1.9">
+      Om man ritar ut alla gissningar som prickar runt facit syns ett tydligt mönster: <strong style="color:#fff">AI-prickarna flyger vitt ut</strong> — långa avstånd från mitten på nästan varje fråga. Människornas prickar är mer samlade kring facit, även om det finns outliers.<br><br>
+      Standardavvikelsen på fråga 4 (totalt antal älgar) berättar allt:<br>
+      🤖 AI-spridning: <strong style="color:#FF2D78">${Math.round(Math.sqrt(aiPlayers.map(r=>r.q4).reduce((s,v)=>s+Math.pow(v-aiPlayers.reduce((a,b)=>({q4:a.q4+b.q4})).q4/aiPlayers.length,2),0)/aiPlayers.length))}</strong> älgar från sitt eget snitt<br>
+      🧠 Mänsklig spridning: <strong style="color:#39FF14">${Math.round(Math.sqrt(humanPlayers.map(r=>r.q4).reduce((s,v)=>s+Math.pow(v-humanPlayers.reduce((a,b)=>({q4:a.q4+b.q4})).q4/humanPlayers.length,2),0)/humanPlayers.length))}</strong> älgar från sitt eget snitt<br><br>
+      Animationen nedan visualiserar varje deltagares gissningar som prickar mot facit på alla fem frågorna. Ju längre från centrum — desto sämre träff.
+    </div>
+    <div style="font-size:0.7rem;color:rgba(255,255,255,0.35);line-height:1.8">
+      <div style="margin-bottom:6px;color:rgba(255,255,255,0.5)">Avvikelse från facit per fråga:</div>
+      ${['Gemini','Chat GPT','DeepSeek','Claude'].map(name=>{
+        const p=results.find(r=>r.name===name);
+        const diffs=[Math.abs(p.q2a-14),Math.abs(p.q2b-32),Math.abs(p.q3-0),Math.abs(p.q4-41)];
+        const avgD=Math.round(diffs.reduce((a,b)=>a+b,0)/diffs.length);
+        return `<span style="color:#FF2D78">🤖 ${name}:</span> snitt ±${avgD} älgar/fråga`;
+      }).join('<br>')}<br><br>
+      ${humanPlayers.map(p=>{
+        const diffs=[Math.abs(p.q2a-14),Math.abs(p.q2b-32),Math.abs(p.q3-0),Math.abs(p.q4-41)];
+        const avgD=Math.round(diffs.reduce((a,b)=>a+b,0)/diffs.length);
+        return `<span style="color:#39FF14">🧠 ${p.name}:</span> snitt ±${avgD}`;
+      }).join('<br>')}
+    </div>
+  </div>
+</div>`;
+document.getElementById('insights-wide').appendChild(insightExtra);
+
+// ===== RIVER ANIMATION =====
+(function(){
+  const canvas = document.getElementById('riverCanvas');
+  const dpr = window.devicePixelRatio || 1;
+  const W = window.innerWidth;
+  const H = 200;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  // River colors
+  const riverColors = ['#0a2a4a','#0d3560','#0f4070','#0d3560'];
+
+  // Wave layers
+  const waves = [
+    { amp: 8,  freq: 0.012, speed: 0.4,  y: H*0.45, alpha: 0.6, color: '#00b4d8' },
+    { amp: 12, freq: 0.018, speed: 0.6,  y: H*0.52, alpha: 0.4, color: '#0077b6' },
+    { amp: 6,  freq: 0.025, speed: 0.9,  y: H*0.58, alpha: 0.35,color: '#023e8a' },
+    { amp: 10, freq: 0.010, speed: 0.25, y: H*0.40, alpha: 0.25, color: '#90e0ef' },
+  ];
+
+  // Ripple particles
+  const ripples = [];
+  for(let i=0;i<18;i++){
+    ripples.push({
+      x: Math.random()*W,
+      y: H*0.38 + Math.random()*H*0.35,
+      r: Math.random()*18+4,
+      alpha: Math.random()*0.3+0.05,
+      speed: 0.3+Math.random()*0.4,
+      life: Math.random(),
+    });
+  }
+
+  // Moose swimmers
+  const mooseEmoji = '🫎';
+  const mooseCount = 5;
+  const mooseArr = [];
+  for(let i=0;i<mooseCount;i++){
+    mooseArr.push({
+      x: -100 - i*220,
+      y: H*0.30 + Math.random()*H*0.22,
+      speed: 1.1 + Math.random()*1.0,
+      size: 28 + Math.random()*18,
+      bobPhase: Math.random()*Math.PI*2,
+      bobSpeed: 0.04 + Math.random()*0.03,
+    });
+  }
+
+  // Floating debris (twigs/leaves)
+  const debris = [];
+  for(let i=0;i<12;i++){
+    debris.push({
+      x: Math.random()*W,
+      y: H*0.42 + Math.random()*H*0.28,
+      speed: 0.4+Math.random()*0.6,
+      size: 3+Math.random()*5,
+      angle: Math.random()*Math.PI*2,
+      rotSpeed: (Math.random()-0.5)*0.04,
+      color: `rgba(${80+Math.random()*60|0},${50+Math.random()*40|0},${20+Math.random()*20|0},0.7)`,
+    });
+  }
+
+  let t = 0;
+
+  function drawWave(wave, t) {
+    ctx.beginPath();
+    ctx.moveTo(0, H);
+    for(let x=0;x<=W;x+=3){
+      const y = wave.y + Math.sin(x*wave.freq + t*wave.speed)*wave.amp
+                       + Math.sin(x*wave.freq*1.7 + t*wave.speed*0.8)*wave.amp*0.4;
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(W, H);
+    ctx.lineTo(0, H);
+    ctx.closePath();
+    ctx.fillStyle = wave.color;
+    ctx.globalAlpha = wave.alpha;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Sky gradient (top portion)
+    const sky = ctx.createLinearGradient(0, 0, 0, H*0.45);
+    sky.addColorStop(0, '#050810');
+    sky.addColorStop(1, '#0a1628');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, W, H);
+
+    // Distant treeline silhouette
+    ctx.fillStyle = '#040c18';
+    ctx.beginPath();
+    ctx.moveTo(0, H*0.38);
+    for(let x=0;x<W;x+=30){
+      const treeH = 18 + Math.sin(x*0.07)*8 + Math.sin(x*0.13)*5;
+      ctx.lineTo(x, H*0.38 - treeH);
+      ctx.lineTo(x+8, H*0.38 - treeH - 10);
+      ctx.lineTo(x+15, H*0.38 - treeH);
+      ctx.lineTo(x+30, H*0.38 - treeH + 2);
+    }
+    ctx.lineTo(W, H*0.38);
+    ctx.closePath();
+    ctx.fill();
+
+    // River base
+    const riverGrad = ctx.createLinearGradient(0, H*0.38, 0, H);
+    riverGrad.addColorStop(0, '#0d3560');
+    riverGrad.addColorStop(0.4, '#0a2a4a');
+    riverGrad.addColorStop(1, '#061828');
+    ctx.fillStyle = riverGrad;
+    ctx.fillRect(0, H*0.38, W, H);
+
+    // Shimmer lines (light reflections)
+    for(let i=0;i<6;i++){
+      const shimX = ((t*30*(0.5+i*0.15) + i*180) % (W+200)) - 100;
+      const shimY = H*0.44 + i*12 + Math.sin(t*0.8+i)*6;
+      const shimL = 40 + Math.sin(t*1.2+i*2)*20;
+      ctx.beginPath();
+      ctx.moveTo(shimX, shimY);
+      ctx.lineTo(shimX+shimL, shimY+2);
+      ctx.strokeStyle = `rgba(144,224,239,${0.06+Math.sin(t*2+i)*0.04})`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+
+    // Waves
+    [...waves].reverse().forEach(w => drawWave(w, t));
+
+    // Ripples
+    ripples.forEach(r => {
+      r.life += r.speed * 0.012;
+      if(r.life > 1){ r.life=0; r.x=Math.random()*W; r.r=Math.random()*18+4; }
+      const fade = r.life < 0.3 ? r.life/0.3 : 1-((r.life-0.3)/0.7);
+      ctx.beginPath();
+      ctx.ellipse(r.x, r.y, r.r*r.life*1.5, r.r*r.life*0.5, 0, 0, Math.PI*2);
+      ctx.strokeStyle = `rgba(144,224,239,${r.alpha*fade})`;
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+    });
+
+    // Debris
+    debris.forEach(d => {
+      d.x += d.speed;
+      d.angle += d.rotSpeed;
+      if(d.x > W+20) d.x = -20;
+      ctx.save();
+      ctx.translate(d.x, d.y + Math.sin(t*1.5+d.x*0.01)*2);
+      ctx.rotate(d.angle);
+      ctx.fillStyle = d.color;
+      ctx.fillRect(-d.size/2, -d.size/4, d.size, d.size/2);
+      ctx.restore();
+    });
+
+    // Moose
+    ctx.textBaseline = 'middle';
+    mooseArr.forEach(m => {
+      m.x += m.speed;
+      m.bobPhase += m.bobSpeed;
+      if(m.x > W + 120) m.x = -120;
+      const bobY = Math.sin(m.bobPhase)*4;
+      // Wake ripple behind moose
+      for(let r=0;r<3;r++){
+        ctx.beginPath();
+        ctx.ellipse(m.x - 20 - r*18, m.y + bobY + 14, 8+r*6, 3+r*2, 0, 0, Math.PI*2);
+        ctx.strokeStyle = `rgba(144,224,239,${0.25-r*0.07})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+      ctx.save();
+      ctx.translate(m.x, m.y + bobY);
+      ctx.font = `${m.size}px serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(mooseEmoji, 0, 0);
+      ctx.restore();
+    });
+
+    t += 0.016;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ===== RADAR ANIMATION — rotating sweep, zoomed centre, way-out-there panels =====
+(function(){
+  const canvas = document.getElementById('targetCanvas');
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const W = window.innerWidth;
+
+  const COLS = 2, ROWS = 2;
+  // Each radar cell gets 68% of half-width; remaining 32% = sidebar
+  const radarAreaW = W / COLS;
+  const sideW = Math.round(radarAreaW * 0.30);   // way-out-there panel width
+  const radarW = radarAreaW - sideW;              // actual radar circle area
+  const cellH = Math.min(radarW * 0.88, 260);
+  const H = cellH * ROWS + 52;
+
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const questions = [
+    { label:'Hur många älgar till 24/4?', sub:'facit: 14', correct:14,  scaleIn:8,   scaleOut:60,  accent:'#00F0FF', sweepSpeed:0.022 },
+    { label:'Hur många älgar till 27/4?', sub:'facit: 32', correct:32,  scaleIn:18,  scaleOut:140, accent:'#c77dff', sweepSpeed:0.018 },
+    { label:'Älgar sista 48 timmarna?',   sub:'facit: 0',  correct:0,   scaleIn:12,  scaleOut:120, accent:'#FFD700', sweepSpeed:0.025 },
+    { label:'Totalt antal älgar till 8/5?',sub:'facit: 41',correct:41,  scaleIn:35,  scaleOut:290, accent:'#FF2D78', sweepSpeed:0.015 },
+  ];
+
+  // Per-question radar sweep angle
+  const sweepAngles = questions.map(() => -Math.PI / 2);
+
+  // Layout helpers — radar circle is left portion of each cell
+  function cellLeft(qi)  { return (qi % COLS) * radarAreaW; }
+  function cellTop(qi)   { return Math.floor(qi / COLS) * cellH; }
+  function radarCX(qi)   { return cellLeft(qi) + radarW / 2; }
+  function radarCY(qi)   { return cellTop(qi) + cellH * 0.47; }
+  function sideX(qi)     { return cellLeft(qi) + radarW; }   // sidebar starts here
+
+  const maxR = Math.min(radarW, cellH) * 0.42;
+
+  const allPlayers2 = [
+    {name:'Gemini',      ai:true,  vals:[3,12,15,64],    col:'#FF2D78'},
+    {name:'Chat GPT',    ai:true,  vals:[27,138,112,287], col:'#FF6B00'},
+    {name:'DeepSeek',    ai:true,  vals:[18,34,9,91],     col:'#c77dff'},
+    {name:'Claude',      ai:true,  vals:[12,47,18,312],   col:'#FF8C00'},
+    {name:'Andolf',      ai:false, vals:[3,28,6,59],      col:'#39FF14'},
+    {name:'Anna',        ai:false, vals:[5,21,15,67],     col:'#00F0FF'},
+    {name:'Lopez',       ai:false, vals:[0,0,47,94],      col:'#7FFF00'},
+    {name:'Axel',        ai:false, vals:[5,31,0,62],      col:'#00FFD1'},
+    {name:'Erik',        ai:false, vals:[8,15,6,87],      col:'#39FF14'},
+    {name:'Christopher', ai:false, vals:[0,6,17,63],      col:'#00BFFF'},
+    {name:'Filip',       ai:false, vals:[5,9,13,43],      col:'#ADFF2F'},
+    {name:'Chuma',       ai:false, vals:[0,11,7,25],      col:'#00F0FF'},
+    {name:'Linus',       ai:false, vals:[8,14,9,76],      col:'#39FF14'},
+    {name:'Frida',       ai:false, vals:[12,23,7,64],     col:'#00FFD1'},
+    {name:'Simon',       ai:false, vals:[4,17,19,57],     col:'#7FFF00'},
+  ];
+  const nPlayers = allPlayers2.length;
+
+  function hex2rgba(hex, a) {
+    const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+    return `rgba(${r},${g},${b},${a})`;
+  }
+
+  // Build dot data — two zones: inside (≤scaleIn) = visible on radar, outside = way-out-there list
+  const dots = [];
+  allPlayers2.forEach((p, pi) => {
+    questions.forEach((q, qi) => {
+      const dev = Math.abs(p.vals[qi] - q.correct);
+      const isOut = dev > q.scaleIn;
+      const normR = isOut ? null : Math.min(dev / q.scaleIn * maxR * 0.92, maxR * 0.92);
+      const angle = (pi / nPlayers) * Math.PI * 2 - Math.PI / 2 + (qi * 0.4);
+      dots.push({
+        qi, dev, ai: p.ai, col: p.col, name: p.name,
+        guess: p.vals[qi], correct: q.correct,
+        normR, angle, isOut,
+        alpha: 0, pulse: Math.random() * Math.PI * 2,
+        pulseSpeed: 0.045 + Math.random() * 0.025,
+        lit: false,    // goes true when sweep passes
+        litFade: 0,    // brightness after sweep pass
+      });
+    });
+  });
+
+  let frame = 0;
+
+  // Draw one radar disc
+  function drawRadarDisc(qi, cx, cy, q) {
+    const sweep = sweepAngles[qi];
+
+    // Clip to circle
+    ctx.save();
+    ctx.beginPath(); ctx.arc(cx, cy, maxR + 2, 0, Math.PI*2); ctx.clip();
+
+    // Background — dark green radar glow
+    const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxR);
+    bg.addColorStop(0, hex2rgba(q.accent, 0.08));
+    bg.addColorStop(0.6, hex2rgba(q.accent, 0.03));
+    bg.addColorStop(1, 'rgba(0,0,0,0.6)');
+    ctx.fillStyle = bg;
+    ctx.beginPath(); ctx.arc(cx, cy, maxR, 0, Math.PI*2); ctx.fill();
+
+    // Sweep trail — cone of fading light behind sweep line
+    const trailSpan = Math.PI * 0.55;
+    const trailGrd = ctx.createConicalGradient
+      ? null : null; // fallback: manual arc segments
+    for (let i = 0; i < 40; i++) {
+      const t = i / 40;
+      const a0 = sweep - trailSpan * t;
+      const a1 = sweep - trailSpan * (t + 1/40);
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, maxR, a0, a1, true);
+      ctx.closePath();
+      ctx.fillStyle = hex2rgba(q.accent, 0.0 + (1-t) * 0.22);
+      ctx.fill();
+    }
+
+    // Concentric rings
+    const rings = 5;
+    for (let r = 1; r <= rings; r++) {
+      const rad = (r / rings) * maxR;
+      ctx.beginPath(); ctx.arc(cx, cy, rad, 0, Math.PI*2);
+      ctx.strokeStyle = hex2rgba(q.accent, 0.10 + (rings-r)*0.04);
+      ctx.lineWidth = r === rings ? 1.5 : 0.8;
+      ctx.stroke();
+    }
+
+    // Crosshairs
+    ctx.strokeStyle = hex2rgba(q.accent, 0.14);
+    ctx.lineWidth = 0.5;
+    ctx.setLineDash([3,5]);
+    ctx.beginPath();
+    ctx.moveTo(cx-maxR, cy); ctx.lineTo(cx+maxR, cy);
+    ctx.moveTo(cx, cy-maxR); ctx.lineTo(cx, cy+maxR);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Sweep line
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(sweep) * maxR, cy + Math.sin(sweep) * maxR);
+    ctx.strokeStyle = hex2rgba(q.accent, 0.95);
+    ctx.lineWidth = 2;
+    ctx.shadowColor = q.accent;
+    ctx.shadowBlur = 10;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    ctx.restore();
+
+    // Outer border ring
+    ctx.beginPath(); ctx.arc(cx, cy, maxR, 0, Math.PI*2);
+    ctx.strokeStyle = hex2rgba(q.accent, 0.35);
+    ctx.lineWidth = 1.5; ctx.stroke();
+
+    // Bullseye
+    const bGrd = ctx.createRadialGradient(cx, cy, 0, cx, cy, 8);
+    bGrd.addColorStop(0, '#fff');
+    bGrd.addColorStop(0.4, hex2rgba(q.accent, 0.9));
+    bGrd.addColorStop(1, 'transparent');
+    ctx.beginPath(); ctx.arc(cx, cy, 8, 0, Math.PI*2);
+    ctx.fillStyle = bGrd; ctx.fill();
+
+    // Title + sub below
+    ctx.font = `bold 12px 'Bebas Neue', monospace`;
+    ctx.fillStyle = hex2rgba(q.accent, 0.85);
+    ctx.textAlign = 'center';
+    ctx.fillText(q.label, cx, cy + maxR + 18);
+    ctx.font = '9px monospace';
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.fillText(q.sub, cx, cy + maxR + 30);
+  }
+
+  // Check if a dot is "lit" by the sweep passing over its angle
+  function isLitBySweep(dotAngle, sweep) {
+    // Normalise angle diff to [-π, π]
+    let diff = ((sweep - dotAngle) % (Math.PI*2) + Math.PI*2) % (Math.PI*2);
+    if (diff > Math.PI) diff -= Math.PI*2;
+    return diff >= 0 && diff < 0.18; // small window
+  }
+
+  function drawDots(qi) {
+    const cx = radarCX(qi), cy = radarCY(qi);
+    const q = questions[qi];
+    const sweep = sweepAngles[qi];
+
+    // Clip to radar circle
+    ctx.save();
+    ctx.beginPath(); ctx.arc(cx, cy, maxR - 2, 0, Math.PI*2); ctx.clip();
+
+    dots.filter(d => d.qi === qi && !d.isOut).forEach(d => {
+      d.alpha = Math.min(d.alpha + 0.025, 1);
+      d.pulse += d.pulseSpeed;
+
+      // Light up when sweep hits
+      if (isLitBySweep(d.angle, sweep)) {
+        d.litFade = 1.0;
+      }
+      d.litFade = Math.max(0, d.litFade - 0.008);
+
+      const dx = cx + Math.cos(d.angle) * d.normR;
+      const dy = cy + Math.sin(d.angle) * d.normR;
+      const bright = 0.4 + d.litFade * 0.6;
+
+      if (d.ai) {
+        // Glow
+        const glow = ctx.createRadialGradient(dx, dy, 0, dx, dy, 14);
+        glow.addColorStop(0, hex2rgba(d.col, bright * 0.5));
+        glow.addColorStop(1, 'transparent');
+        ctx.beginPath(); ctx.arc(dx, dy, 14, 0, Math.PI*2);
+        ctx.fillStyle = glow; ctx.fill();
+        // Pulsing ring
+        ctx.beginPath(); ctx.arc(dx, dy, 6 + Math.sin(d.pulse)*2, 0, Math.PI*2);
+        ctx.strokeStyle = hex2rgba(d.col, bright * 0.8);
+        ctx.lineWidth = 1.5; ctx.stroke();
+        // Core
+        ctx.beginPath(); ctx.arc(dx, dy, 4.5, 0, Math.PI*2);
+        ctx.fillStyle = hex2rgba(d.col, bright); ctx.fill();
+      } else {
+        ctx.beginPath(); ctx.arc(dx, dy, 3.5, 0, Math.PI*2);
+        ctx.fillStyle = hex2rgba(d.col, bright * 0.9); ctx.fill();
+        if (d.litFade > 0.1) {
+          ctx.beginPath(); ctx.arc(dx, dy, 6, 0, Math.PI*2);
+          ctx.strokeStyle = hex2rgba(d.col, d.litFade * 0.5);
+          ctx.lineWidth = 0.8; ctx.stroke();
+        }
+      }
+
+      // Name on lit
+      if (d.litFade > 0.3 || (d.ai && d.alpha > 0.9)) {
+        ctx.font = `${d.ai ? 'bold ' : ''}8px monospace`;
+        ctx.fillStyle = `rgba(255,255,255,${Math.max(d.litFade, d.ai ? 0.6 : 0)})`;
+        ctx.textAlign = 'center';
+        ctx.fillText(d.name.split(' ')[0].substring(0,7), dx, dy - 9);
+      }
+    });
+    ctx.restore();
+  }
+
+  // Draw the "way out there" sidebar
+  function drawSidebar(qi) {
+    const sx = sideX(qi);
+    const sy = cellTop(qi);
+    const q = questions[qi];
+    const outDots = dots.filter(d => d.qi === qi && d.isOut)
+      .sort((a, b) => b.dev - a.dev)
+      .slice(0, 3);
+
+    if (!outDots.length) return;
+
+    // Sidebar background
+    const sbg = ctx.createLinearGradient(sx, sy, sx + sideW, sy);
+    sbg.addColorStop(0, hex2rgba(q.accent, 0.05));
+    sbg.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = sbg;
+    ctx.fillRect(sx, sy, sideW, cellH);
+
+    // Left border
+    ctx.beginPath();
+    ctx.moveTo(sx, sy + 8); ctx.lineTo(sx, sy + cellH - 8);
+    ctx.strokeStyle = hex2rgba(q.accent, 0.25);
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Header
+    ctx.font = `bold 10px 'Bebas Neue', monospace`;
+    ctx.fillStyle = hex2rgba(q.accent, 0.9);
+    ctx.textAlign = 'left';
+    ctx.fillText('⚠ WAY OUT THERE', sx + 8, sy + 18);
+
+    ctx.font = '8px monospace';
+    ctx.fillStyle = 'rgba(255,255,255,0.2)';
+    ctx.fillText('off the radar', sx + 8, sy + 29);
+
+    // List each outlier
+    const lineH = Math.min(22, (cellH - 40) / Math.max(outDots.length, 1));
+    outDots.forEach((d, i) => {
+      const ly = sy + 40 + i * lineH;
+      if (ly > sy + cellH - 8) return;
+
+      // Colour dot
+      ctx.beginPath(); ctx.arc(sx + 14, ly + 4, 3, 0, Math.PI*2);
+      ctx.fillStyle = d.col;
+      ctx.fill();
+
+      // Name
+      ctx.font = `${d.ai ? 'bold ' : ''}8px monospace`;
+      ctx.fillStyle = hex2rgba(d.col, 0.85);
+      ctx.textAlign = 'left';
+      ctx.fillText(d.name.substring(0, 9), sx + 20, ly + 7);
+
+      // Deviation bar
+      const barMaxW = sideW - 28;
+      const barW = Math.min(d.dev / q.scaleOut * barMaxW, barMaxW);
+      ctx.fillStyle = hex2rgba(d.col, 0.15);
+      ctx.fillRect(sx + 20, ly + 10, barMaxW, 4);
+      ctx.fillStyle = hex2rgba(d.col, 0.55);
+      ctx.fillRect(sx + 20, ly + 10, barW, 4);
+
+      // Value
+      ctx.font = '7px monospace';
+      ctx.fillStyle = 'rgba(255,255,255,0.35)';
+      ctx.textAlign = 'right';
+      ctx.fillText(`+${d.dev}`, sx + sideW - 4, ly + 7);
+    });
+  }
+
+  function draw2() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Global bg
+    ctx.fillStyle = '#04060f';
+    ctx.fillRect(0, 0, W, H);
+
+    // Advance sweep angles
+    questions.forEach((q, qi) => {
+      sweepAngles[qi] = (sweepAngles[qi] + q.sweepSpeed) % (Math.PI * 2);
+    });
+
+    // Grid dividers
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(W/2, 0); ctx.lineTo(W/2, H);
+    ctx.moveTo(0, cellH); ctx.lineTo(W, cellH);
+    ctx.stroke();
+
+    // Draw each cell
+    questions.forEach((q, qi) => {
+      drawRadarDisc(qi, radarCX(qi), radarCY(qi), q);
+      drawDots(qi);
+      drawSidebar(qi);
+    });
+
+    // Bottom legend
+    const ly = H - 14;
+    ctx.font = '9px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#FF2D78';
+    ctx.beginPath(); ctx.arc(14, ly, 4, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.45)';
+    ctx.fillText('AI', 22, ly + 3);
+    ctx.fillStyle = '#39FF14';
+    ctx.beginPath(); ctx.arc(50, ly, 3, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.45)';
+    ctx.fillText('Människa', 58, ly + 3);
+    ctx.fillStyle = 'rgba(255,255,255,0.2)';
+    ctx.fillText('· Gissningar inom zonen — outliers i sidopanel', 140, ly + 3);
+
+    frame++;
+    requestAnimationFrame(draw2);
+  }
+  draw2();
+})();
+</script>
+</body>
+</html>
