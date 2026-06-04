@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="sv">
 <head>
 <meta charset="UTF-8">
@@ -830,7 +830,7 @@ insightExtra.innerHTML = `
         const avgD=Math.round(diffs.reduce((a,b)=>a+b,0)/diffs.length);
         return `<span style="color:#FF2D78">🤖 ${name}:</span> snitt ±${avgD} älgar/fråga`;
       }).join('<br>')}<br><br>
-      ${humanPlayers.map(p=>{
+      ${[...humanPlayers].sort((a,b)=>a.name.localeCompare(b.name,'sv')).map(p=>{
         const diffs=[Math.abs(p.q2a-14),Math.abs(p.q2b-32),Math.abs(p.q3-0),Math.abs(p.q4-42)];
         const avgD=Math.round(diffs.reduce((a,b)=>a+b,0)/diffs.length);
         return `<span style="color:#39FF14">🧠 ${p.name}:</span> snitt ±${avgD}`;
@@ -1044,7 +1044,7 @@ document.getElementById('insights-wide').appendChild(insightExtra);
 
   // disc height based on column width
   const radarDiscH = Math.min(radarAreaW * 0.78, 240);
-  const sideH = 135;
+  const sideH = 210;
   const cellH = radarDiscH + sideH;
   const H = cellH * ROWS + 40;
 
@@ -1064,10 +1064,10 @@ document.getElementById('insights-wide').appendChild(insightExtra);
   const maxR = Math.min(radarAreaW * 0.42, radarDiscH * 0.42);
 
   const questions = [
-    { label:'Hur många älgar till 24/4?', sub:'facit: 14', correct:14,  scaleIn:8,   scaleOut:60,  accent:'#00F0FF', sweepSpeed:0.022 },
-    { label:'Hur många älgar till 27/4?', sub:'facit: 32', correct:32,  scaleIn:18,  scaleOut:140, accent:'#c77dff', sweepSpeed:0.018 },
-    { label:'Älgar sista 48 timmarna?',   sub:'facit: 0',  correct:0,   scaleIn:12,  scaleOut:120, accent:'#FFD700', sweepSpeed:0.025 },
-    { label:'Totalt antal älgar till 8/5?',sub:'facit: 42',correct:42,  scaleIn:35,  scaleOut:290, accent:'#FF2D78', sweepSpeed:0.015 },
+    { label:'Hur många älgar till 24/4?', sub:'facit: 14', correct:14,  scaleIn:8,   scaleOut:60,  accent:'#00F0FF', sweepSpeed:0.02904 },
+    { label:'Hur många älgar till 27/4?', sub:'facit: 32', correct:32,  scaleIn:18,  scaleOut:140, accent:'#c77dff', sweepSpeed:0.02376 },
+    { label:'Älgar sista 48 timmarna?',   sub:'facit: 0',  correct:0,   scaleIn:12,  scaleOut:120, accent:'#FFD700', sweepSpeed:0.03300 },
+    { label:'Totalt antal älgar till 8/5?',sub:'facit: 42',correct:42,  scaleIn:35,  scaleOut:290, accent:'#FF2D78', sweepSpeed:0.01980 },
   ];
 
   const sweepAngles = questions.map(() => -Math.PI / 2);
@@ -1197,13 +1197,13 @@ document.getElementById('insights-wide').appendChild(insightExtra);
     ctx.fillStyle = bGrd; ctx.fill();
 
     // Title + sub below
-    ctx.font = `bold 14px 'Bebas Neue', monospace`;
+    ctx.font = `bold 20px 'Bebas Neue', monospace`;
     ctx.fillStyle = hex2rgba(q.accent, 0.85);
     ctx.textAlign = 'center';
-    ctx.fillText(q.label, cx, cy + maxR + 20);
+    ctx.fillText(q.label, cx, cy + maxR + 22);
     ctx.font = '11px monospace';
     ctx.fillStyle = 'rgba(255,255,255,0.3)';
-    ctx.fillText(q.sub, cx, cy + maxR + 34);
+    ctx.fillText(q.sub, cx, cy + maxR + 38);
   }
 
   // Check if a dot is "lit" by the sweep passing over its angle
@@ -1261,10 +1261,10 @@ document.getElementById('insights-wide').appendChild(insightExtra);
         }
       }
 
-      // Name on lit
-      if (d.litFade > 0.3 || (d.ai && d.alpha > 0.9)) {
+      // Name — only on sweep lit, same for AI and humans
+      if (d.litFade > 0.3) {
         ctx.font = `${d.ai ? 'bold ' : ''}8px monospace`;
-        ctx.fillStyle = `rgba(255,255,255,${Math.max(d.litFade, d.ai ? 0.6 : 0)})`;
+        ctx.fillStyle = `rgba(255,255,255,${d.litFade * 0.95})`;
         ctx.textAlign = 'center';
         ctx.fillText(d.name.split(' ')[0].substring(0,7), dx, dy - 9);
       }
@@ -1284,29 +1284,31 @@ document.getElementById('insights-wide').appendChild(insightExtra);
 
     if (!outDots.length) return;
 
-    // Top separator line
+    // Top separator line — pushed down to create gap after facit text
     ctx.beginPath();
-    ctx.moveTo(bx + 20, by + 4); ctx.lineTo(bx + bw - 20, by + 4);
+    ctx.moveTo(bx + 20, by + 22); ctx.lineTo(bx + bw - 20, by + 22);
     ctx.strokeStyle = hex2rgba(q.accent, 0.2);
     ctx.lineWidth = 0.5; ctx.stroke();
 
     // Header — centred
-    ctx.font = `bold 13px 'Bebas Neue', monospace`;
+    ctx.font = `bold 19px 'Bebas Neue', monospace`;
     ctx.fillStyle = hex2rgba(q.accent, 0.9);
     ctx.textAlign = 'center';
-    ctx.fillText('⚠ WAY OUT THERE', bx + bw / 2, by + 20);
-    ctx.font = '10px monospace';
-    ctx.fillStyle = 'rgba(255,255,255,0.22)';
-    ctx.fillText('off the radar', bx + bw / 2, by + 33);
+    ctx.fillText('⚠ WAY OUT THERE', bx + bw / 2, by + 44);
 
-    // Stacked rows — centered block
-    const rowH = 26;
+    // "off the radar"
+    ctx.font = 'bold 11px monospace';
+    ctx.fillStyle = 'rgba(255,255,255,0.55)';
+    ctx.fillText('off the radar', bx + bw / 2, by + 60);
+
+    // Stacked rows
+    const rowH = 34;
     const blockW = bw * 0.72;
     const blockX = bx + (bw - blockW) / 2;
     const barMaxW = blockW - 70;
 
     outDots.forEach((d, i) => {
-      const ry = by + 44 + i * rowH;
+      const ry = by + 72 + i * rowH;
 
       // Rank badge
       ctx.font = 'bold 10px monospace';
@@ -1328,9 +1330,9 @@ document.getElementById('insights-wide').appendChild(insightExtra);
       const barX = blockX + 32;
       const barW = Math.min(d.dev / q.scaleOut * barMaxW, barMaxW);
       ctx.fillStyle = hex2rgba(d.col, 0.1);
-      ctx.fillRect(barX, ry + 14, barMaxW, 5);
+      ctx.fillRect(barX, ry + 15, barMaxW, 5);
       ctx.fillStyle = hex2rgba(d.col, 0.55);
-      ctx.fillRect(barX, ry + 14, barW, 5);
+      ctx.fillRect(barX, ry + 15, barW, 5);
 
       // Value right-aligned
       ctx.font = '10px monospace';
