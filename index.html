@@ -659,7 +659,7 @@ insightsGrid.innerHTML = `
     Med max <strong style="color:#fff">30 ÄPS</strong> att hämta var fråga 4 (totalt antal älgar = 42) den tyngsta enskilda frågan — och den som sänkte flest.<br><br>
     Snittgissning bland alla deltagare: <strong style="color:var(--neon-orange)">${avgGuessQ4} älgar</strong> — mer än dubbelt för mycket.<br><br>
     <span style="color:var(--neon-pink)">Värst: ${worstF4.name}${worstF4.ai?' (AI)':''} gissade ${results.find(r=>r.name===worstF4.name).q4} → ${worstF4.pts} ÄPS</span><br>
-    <span style="color:var(--neon-green)">Bäst: ${bestF4.name}${bestF4.ai?' (AI)':''} → ${bestF4.pts>0?'+':''}${bestF4.pts} ÄPS</span><br><br>
+    <span style="color:var(--neon-blue)">🎯 Närmast facit: Filip Joelsson gissade 43 — bara 1 ifrån!</span><br><br>
     Snittpoäng på F4: <strong style="color:var(--neon-blue)">${avgF4>0?'+':''}${avgF4} ÄPS</strong>
   </div>
 </div>
@@ -671,7 +671,7 @@ insightsGrid.innerHTML = `
   <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);line-height:1.9">
     AI-modellerna gissade i snitt <strong style="color:var(--neon-pink)">${Math.round([64,287,91,312].reduce((a,b)=>a+b,0)/4)} älgar totalt</strong> — mot facit 42. Det är <strong style="color:#fff">${Math.round(([64,287,91,312].reduce((a,b)=>a+b,0)/4)/42*100-100)}% överskattning</strong>.<br><br>
     Trots det klarade sig Gemini bäst av alla AI:er med <strong style="color:var(--neon-blue)">${aiResults[0].total} ÄPS</strong> — tack vare måttligare gissningar.<br><br>
-    Ironiskt nog fick <strong style="color:var(--neon-pink)">Claude</strong> (den AI som byggde denna presentation) <strong style="color:var(--neon-pink)">sämst placering bland AI:erna</strong> med ${results.find(r=>r.name==='Claude').total} ÄPS — drivet av en gissning på <em>312 totala älgar</em>.<br><br>
+    Ironiskt nog fick <strong style="color:var(--neon-pink)">Claude</strong> (den AI som fått ansvar att stötta TechAxel med att bygga denna presentation) <strong style="color:var(--neon-pink)">sämst placering bland AI:erna</strong> med ${results.find(r=>r.name==='Claude').total} ÄPS — drivet av en gissning på <em>312 totala älgar</em>.<br><br>
     <span style="color:var(--neon-green)">Människorna vann överlägset. 🏆</span>
   </div>
 </div>`;
