@@ -433,7 +433,7 @@
   <div class="divider"><span>🎯</span></div>
 
   <!-- TARGET ANIMATION — placed after insights -->
-  <div style="position:relative;width:100vw;left:50%;transform:translateX(-50%);margin-bottom:2rem;overflow:hidden;">
+  <div id="targetWrap" style="margin-bottom:2rem;">
     <canvas id="targetCanvas" style="display:block;width:100%;"></canvas>
   </div>
 
@@ -489,7 +489,7 @@ function q1base(s){const dt=parseDT(s);if(!dt)return{pts:0,dt:null,absDays:999};
 function sQ2a(v){const d=Math.abs(v-14);if(d===0)return 5;if(d<=3)return 3;return -2*Math.floor(d/5);}
 function sQ2b(v){const d=Math.abs(v-32);if(d===0)return 10;if(d<=3)return 5;return -2*Math.floor(d/5);}
 function sQ3(v){const d=Math.abs(v-0);if(d===0)return 10;if(d<=3)return 5;return -2*Math.floor(d/5);}
-function sQ4(v){const d=Math.abs(v-41);if(d===0)return 30;if(d<=2)return 20;if(d<=5)return 10;return -5*Math.floor(d/5);}
+function sQ4(v){const d=Math.abs(v-42);if(d===0)return 30;if(d<=2)return 20;if(d<=5)return 10;return -5*Math.floor(d/5);}
 function sQ5(s){
   const sl=s.toLowerCase();
   const picked=[];
@@ -631,7 +631,7 @@ shame.innerHTML=`
     ${geminiBeaten.map(h=>`<span style="color:rgba(255,255,255,0.6)">${h.name} (${h.total>0?'+':''}${h.total})</span>`).join(', ')}.<br>
     <span style="font-size:0.68rem;color:rgba(255,255,255,0.35)">Gemini klarade sig bäst av AI:erna på volymfrågorna men tappade bonuspoäng på att tro för mycket på sig själv — svarade "Ja" på F6 och angav egna namn på F5.</span><br><br>
 
-    <span style="color:var(--neon-pink)">🤖 Claude och Chat GPT</span> slog ingen enda människa. Claude gissade 312 totala älgar. Chat GPT gissade 287. Facit var 41.<br><br>
+    <span style="color:var(--neon-pink)">🤖 Claude och Chat GPT</span> slog ingen enda människa. Claude gissade 312 totala älgar. Chat GPT gissade 287. Facit var 42.<br><br>
 
     <span style="opacity:0.4;font-size:0.65rem">FÖRRA ÅRETS BÄSTA GPT: −409.5 ÄPS &nbsp;|&nbsp; SÄMSTA GPT: −1819 ÄPS &nbsp;|&nbsp; 2026: DeepSeek slår faktiskt 4 av 11 människor — framsteg?</span>
   </div>`;
@@ -646,8 +646,8 @@ const worstF4 = f4scores.reduce((a,b)=>a.pts<b.pts?a:b);
 const avgF4 = Math.round(f4scores.reduce((s,r)=>s+r.pts,0)/f4scores.length);
 
 // Insight 2: Optimism vs pessimism på fråga 4 — who over/underestimated
-const overestimators = results.filter(r=>r.q4>41).sort((a,b)=>b.q4-a.q4);
-const underestimators = results.filter(r=>r.q4<41).sort((a,b)=>a.q4-b.q4);
+const overestimators = results.filter(r=>r.q4>42).sort((a,b)=>b.q4-a.q4);
+const underestimators = results.filter(r=>r.q4<42).sort((a,b)=>a.q4-b.q4);
 const avgGuessQ4 = Math.round(results.reduce((s,r)=>s+r.q4,0)/results.length);
 
 insightsGrid.innerHTML = `
@@ -656,7 +656,7 @@ insightsGrid.innerHTML = `
     ⚡ FRÅGA 4 TUNGA ÄPS
   </div>
   <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);line-height:1.9">
-    Med max <strong style="color:#fff">30 ÄPS</strong> att hämta var fråga 4 (totalt antal älgar = 41) den tyngsta enskilda frågan — och den som sänkte flest.<br><br>
+    Med max <strong style="color:#fff">30 ÄPS</strong> att hämta var fråga 4 (totalt antal älgar = 42) den tyngsta enskilda frågan — och den som sänkte flest.<br><br>
     Snittgissning bland alla deltagare: <strong style="color:var(--neon-orange)">${avgGuessQ4} älgar</strong> — mer än dubbelt för mycket.<br><br>
     <span style="color:var(--neon-pink)">Värst: ${worstF4.name}${worstF4.ai?' (AI)':''} gissade ${results.find(r=>r.name===worstF4.name).q4} → ${worstF4.pts} ÄPS</span><br>
     <span style="color:var(--neon-green)">Bäst: ${bestF4.name}${bestF4.ai?' (AI)':''} → ${bestF4.pts>0?'+':''}${bestF4.pts} ÄPS</span><br><br>
@@ -669,7 +669,7 @@ insightsGrid.innerHTML = `
     🧠 AI:ER KONTRA VERKLIGHETEN
   </div>
   <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);line-height:1.9">
-    AI-modellerna gissade i snitt <strong style="color:var(--neon-pink)">${Math.round([64,287,91,312].reduce((a,b)=>a+b,0)/4)} älgar totalt</strong> — mot facit 41. Det är <strong style="color:#fff">${Math.round(([64,287,91,312].reduce((a,b)=>a+b,0)/4)/41*100-100)}% överskattning</strong>.<br><br>
+    AI-modellerna gissade i snitt <strong style="color:var(--neon-pink)">${Math.round([64,287,91,312].reduce((a,b)=>a+b,0)/4)} älgar totalt</strong> — mot facit 42. Det är <strong style="color:#fff">${Math.round(([64,287,91,312].reduce((a,b)=>a+b,0)/4)/42*100-100)}% överskattning</strong>.<br><br>
     Trots det klarade sig Gemini bäst av alla AI:er med <strong style="color:var(--neon-blue)">${aiResults[0].total} ÄPS</strong> — tack vare måttligare gissningar.<br><br>
     Ironiskt nog fick <strong style="color:var(--neon-pink)">Claude</strong> (den AI som byggde denna presentation) <strong style="color:var(--neon-pink)">sämst placering bland AI:erna</strong> med ${results.find(r=>r.name==='Claude').total} ÄPS — drivet av en gissning på <em>312 totala älgar</em>.<br><br>
     <span style="color:var(--neon-green)">Människorna vann överlägset. 🏆</span>
@@ -756,7 +756,7 @@ insightsWide.innerHTML = `
       Axel och Frida var de enda som träffade rätt datum (21/4) och delade på tidbonusen om +5 och +3 ÄPS. Ingen AI kom ens nära rätt dag.
     </div>
     <div>
-      ${barRow('Snitt dagars avvikelse (abs)', Math.abs(avgAiDiff), Math.abs(avgHumanDiff), 12, '#FF2D78', '#39FF14', ' dagar')}
+      ${barRow(`Snitt dagars avvikelse &nbsp;<span style="color:rgba(255,255,255,0.35);font-size:9px">AI: ${avgAiDiff > 0 ? '+' : ''}${avgAiDiff}d &nbsp; Människa: ${avgHumanDiff > 0 ? '+' : ''}${avgHumanDiff}d</span>`, Math.abs(avgAiDiff), Math.abs(avgHumanDiff), 12, '#FF2D78', '#39FF14', ' dagar')}
       ${barRow('Antal som gissade FÖR SENT', aiTooLate, humanTooLate, 11, '#FF6B00', '#00F0FF', ' st')}
       ${barRow('Antal som gissade FÖR TIDIGT', aiTooEarly, humanTooEarly, 11, '#FF6B00', '#00F0FF', ' st')}
     </div>
@@ -826,12 +826,12 @@ insightExtra.innerHTML = `
       <div style="margin-bottom:6px;color:rgba(255,255,255,0.5)">Avvikelse från facit per fråga:</div>
       ${['Gemini','Chat GPT','DeepSeek','Claude'].map(name=>{
         const p=results.find(r=>r.name===name);
-        const diffs=[Math.abs(p.q2a-14),Math.abs(p.q2b-32),Math.abs(p.q3-0),Math.abs(p.q4-41)];
+        const diffs=[Math.abs(p.q2a-14),Math.abs(p.q2b-32),Math.abs(p.q3-0),Math.abs(p.q4-42)];
         const avgD=Math.round(diffs.reduce((a,b)=>a+b,0)/diffs.length);
         return `<span style="color:#FF2D78">🤖 ${name}:</span> snitt ±${avgD} älgar/fråga`;
       }).join('<br>')}<br><br>
       ${humanPlayers.map(p=>{
-        const diffs=[Math.abs(p.q2a-14),Math.abs(p.q2b-32),Math.abs(p.q3-0),Math.abs(p.q4-41)];
+        const diffs=[Math.abs(p.q2a-14),Math.abs(p.q2b-32),Math.abs(p.q3-0),Math.abs(p.q4-42)];
         const avgD=Math.round(diffs.reduce((a,b)=>a+b,0)/diffs.length);
         return `<span style="color:#39FF14">🧠 ${p.name}:</span> snitt ±${avgD}`;
       }).join('<br>')}
@@ -1032,15 +1032,21 @@ document.getElementById('insights-wide').appendChild(insightExtra);
   const canvas = document.getElementById('targetCanvas');
   if (!canvas) return;
   const dpr = window.devicePixelRatio || 1;
-  const W = window.innerWidth;
 
-  const COLS = 2, ROWS = 2;
-  // Each radar cell gets 68% of half-width; remaining 32% = sidebar
-  const radarAreaW = W / COLS;
-  const sideW = Math.round(radarAreaW * 0.30);   // way-out-there panel width
-  const radarW = radarAreaW - sideW;              // actual radar circle area
-  const cellH = Math.min(radarW * 0.88, 260);
-  const H = cellH * ROWS + 52;
+  // Match the container's actual rendered width (respects max-width + padding)
+  const W = canvas.parentElement.clientWidth;
+  const GAP = 16; // same as insights-grid gap (1rem)
+  const COLS = 2;
+  const ROWS = 2;
+
+  // Each radar column width = (total - gap) / 2
+  const radarAreaW = (W - GAP) / COLS;
+
+  // disc height based on column width
+  const radarDiscH = Math.min(radarAreaW * 0.78, 240);
+  const sideH = 135;
+  const cellH = radarDiscH + sideH;
+  const H = cellH * ROWS + 40;
 
   canvas.width  = W * dpr;
   canvas.height = H * dpr;
@@ -1048,24 +1054,23 @@ document.getElementById('insights-wide').appendChild(insightExtra);
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
 
+  // Layout helpers — account for gap between columns
+  function cellLeft(qi)  { return (qi % COLS) * (radarAreaW + GAP); }
+  function cellTop(qi)   { return Math.floor(qi / COLS) * cellH; }
+  function radarCX(qi)   { return cellLeft(qi) + radarAreaW / 2; }
+  function radarCY(qi)   { return cellTop(qi) + radarDiscH * 0.48; }
+  function belowTop(qi)  { return cellTop(qi) + radarDiscH; }
+
+  const maxR = Math.min(radarAreaW * 0.42, radarDiscH * 0.42);
+
   const questions = [
     { label:'Hur många älgar till 24/4?', sub:'facit: 14', correct:14,  scaleIn:8,   scaleOut:60,  accent:'#00F0FF', sweepSpeed:0.022 },
     { label:'Hur många älgar till 27/4?', sub:'facit: 32', correct:32,  scaleIn:18,  scaleOut:140, accent:'#c77dff', sweepSpeed:0.018 },
     { label:'Älgar sista 48 timmarna?',   sub:'facit: 0',  correct:0,   scaleIn:12,  scaleOut:120, accent:'#FFD700', sweepSpeed:0.025 },
-    { label:'Totalt antal älgar till 8/5?',sub:'facit: 41',correct:41,  scaleIn:35,  scaleOut:290, accent:'#FF2D78', sweepSpeed:0.015 },
+    { label:'Totalt antal älgar till 8/5?',sub:'facit: 42',correct:42,  scaleIn:35,  scaleOut:290, accent:'#FF2D78', sweepSpeed:0.015 },
   ];
 
-  // Per-question radar sweep angle
   const sweepAngles = questions.map(() => -Math.PI / 2);
-
-  // Layout helpers — radar circle is left portion of each cell
-  function cellLeft(qi)  { return (qi % COLS) * radarAreaW; }
-  function cellTop(qi)   { return Math.floor(qi / COLS) * cellH; }
-  function radarCX(qi)   { return cellLeft(qi) + radarW / 2; }
-  function radarCY(qi)   { return cellTop(qi) + cellH * 0.47; }
-  function sideX(qi)     { return cellLeft(qi) + radarW; }   // sidebar starts here
-
-  const maxR = Math.min(radarW, cellH) * 0.42;
 
   const allPlayers2 = [
     {name:'Gemini',      ai:true,  vals:[3,12,15,64],    col:'#FF2D78'},
@@ -1192,13 +1197,13 @@ document.getElementById('insights-wide').appendChild(insightExtra);
     ctx.fillStyle = bGrd; ctx.fill();
 
     // Title + sub below
-    ctx.font = `bold 12px 'Bebas Neue', monospace`;
+    ctx.font = `bold 14px 'Bebas Neue', monospace`;
     ctx.fillStyle = hex2rgba(q.accent, 0.85);
     ctx.textAlign = 'center';
-    ctx.fillText(q.label, cx, cy + maxR + 18);
-    ctx.font = '9px monospace';
+    ctx.fillText(q.label, cx, cy + maxR + 20);
+    ctx.font = '11px monospace';
     ctx.fillStyle = 'rgba(255,255,255,0.3)';
-    ctx.fillText(q.sub, cx, cy + maxR + 30);
+    ctx.fillText(q.sub, cx, cy + maxR + 34);
   }
 
   // Check if a dot is "lit" by the sweep passing over its angle
@@ -1267,10 +1272,11 @@ document.getElementById('insights-wide').appendChild(insightExtra);
     ctx.restore();
   }
 
-  // Draw the "way out there" sidebar
+  // Draw the "way out there" panel — stacked list below the radar disc
   function drawSidebar(qi) {
-    const sx = sideX(qi);
-    const sy = cellTop(qi);
+    const bx = cellLeft(qi);
+    const by = belowTop(qi);
+    const bw = radarAreaW;
     const q = questions[qi];
     const outDots = dots.filter(d => d.qi === qi && d.isOut)
       .sort((a, b) => b.dev - a.dev)
@@ -1278,60 +1284,59 @@ document.getElementById('insights-wide').appendChild(insightExtra);
 
     if (!outDots.length) return;
 
-    // Sidebar background
-    const sbg = ctx.createLinearGradient(sx, sy, sx + sideW, sy);
-    sbg.addColorStop(0, hex2rgba(q.accent, 0.05));
-    sbg.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = sbg;
-    ctx.fillRect(sx, sy, sideW, cellH);
-
-    // Left border
+    // Top separator line
     ctx.beginPath();
-    ctx.moveTo(sx, sy + 8); ctx.lineTo(sx, sy + cellH - 8);
-    ctx.strokeStyle = hex2rgba(q.accent, 0.25);
-    ctx.lineWidth = 1;
-    ctx.stroke();
+    ctx.moveTo(bx + 20, by + 4); ctx.lineTo(bx + bw - 20, by + 4);
+    ctx.strokeStyle = hex2rgba(q.accent, 0.2);
+    ctx.lineWidth = 0.5; ctx.stroke();
 
-    // Header
-    ctx.font = `bold 10px 'Bebas Neue', monospace`;
+    // Header — centred
+    ctx.font = `bold 13px 'Bebas Neue', monospace`;
     ctx.fillStyle = hex2rgba(q.accent, 0.9);
-    ctx.textAlign = 'left';
-    ctx.fillText('⚠ WAY OUT THERE', sx + 8, sy + 18);
+    ctx.textAlign = 'center';
+    ctx.fillText('⚠ WAY OUT THERE', bx + bw / 2, by + 20);
+    ctx.font = '10px monospace';
+    ctx.fillStyle = 'rgba(255,255,255,0.22)';
+    ctx.fillText('off the radar', bx + bw / 2, by + 33);
 
-    ctx.font = '8px monospace';
-    ctx.fillStyle = 'rgba(255,255,255,0.2)';
-    ctx.fillText('off the radar', sx + 8, sy + 29);
+    // Stacked rows — centered block
+    const rowH = 26;
+    const blockW = bw * 0.72;
+    const blockX = bx + (bw - blockW) / 2;
+    const barMaxW = blockW - 70;
 
-    // List each outlier
-    const lineH = Math.min(22, (cellH - 40) / Math.max(outDots.length, 1));
     outDots.forEach((d, i) => {
-      const ly = sy + 40 + i * lineH;
-      if (ly > sy + cellH - 8) return;
+      const ry = by + 44 + i * rowH;
+
+      // Rank badge
+      ctx.font = 'bold 10px monospace';
+      ctx.fillStyle = hex2rgba(q.accent, 0.5);
+      ctx.textAlign = 'center';
+      ctx.fillText(`${i+1}.`, blockX + 8, ry + 9);
 
       // Colour dot
-      ctx.beginPath(); ctx.arc(sx + 14, ly + 4, 3, 0, Math.PI*2);
-      ctx.fillStyle = d.col;
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(blockX + 22, ry + 7, 4.5, 0, Math.PI*2);
+      ctx.fillStyle = d.col; ctx.fill();
 
       // Name
-      ctx.font = `${d.ai ? 'bold ' : ''}8px monospace`;
-      ctx.fillStyle = hex2rgba(d.col, 0.85);
+      ctx.font = `${d.ai ? 'bold ' : ''}11px monospace`;
+      ctx.fillStyle = hex2rgba(d.col, 0.92);
       ctx.textAlign = 'left';
-      ctx.fillText(d.name.substring(0, 9), sx + 20, ly + 7);
+      ctx.fillText(d.name.substring(0, 14), blockX + 32, ry + 10);
 
       // Deviation bar
-      const barMaxW = sideW - 28;
+      const barX = blockX + 32;
       const barW = Math.min(d.dev / q.scaleOut * barMaxW, barMaxW);
-      ctx.fillStyle = hex2rgba(d.col, 0.15);
-      ctx.fillRect(sx + 20, ly + 10, barMaxW, 4);
+      ctx.fillStyle = hex2rgba(d.col, 0.1);
+      ctx.fillRect(barX, ry + 14, barMaxW, 5);
       ctx.fillStyle = hex2rgba(d.col, 0.55);
-      ctx.fillRect(sx + 20, ly + 10, barW, 4);
+      ctx.fillRect(barX, ry + 14, barW, 5);
 
-      // Value
-      ctx.font = '7px monospace';
-      ctx.fillStyle = 'rgba(255,255,255,0.35)';
+      // Value right-aligned
+      ctx.font = '10px monospace';
+      ctx.fillStyle = 'rgba(255,255,255,0.5)';
       ctx.textAlign = 'right';
-      ctx.fillText(`+${d.dev}`, sx + sideW - 4, ly + 7);
+      ctx.fillText(`+${d.dev}`, blockX + blockW, ry + 10);
     });
   }
 
@@ -1347,11 +1352,14 @@ document.getElementById('insights-wide').appendChild(insightExtra);
       sweepAngles[qi] = (sweepAngles[qi] + q.sweepSpeed) % (Math.PI * 2);
     });
 
-    // Grid dividers
+    // Gap fill between columns (so it's not grey canvas bleed)
+    ctx.fillStyle = '#04060f';
+    ctx.fillRect(radarAreaW, 0, GAP, H);
+
+    // Row divider
     ctx.strokeStyle = 'rgba(255,255,255,0.04)';
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(W/2, 0); ctx.lineTo(W/2, H);
     ctx.moveTo(0, cellH); ctx.lineTo(W, cellH);
     ctx.stroke();
 
@@ -1363,19 +1371,19 @@ document.getElementById('insights-wide').appendChild(insightExtra);
     });
 
     // Bottom legend
-    const ly = H - 14;
-    ctx.font = '9px monospace';
+    const ly = H - 16;
+    ctx.font = '11px monospace';
     ctx.textAlign = 'left';
     ctx.fillStyle = '#FF2D78';
-    ctx.beginPath(); ctx.arc(14, ly, 4, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,0.45)';
-    ctx.fillText('AI', 22, ly + 3);
+    ctx.beginPath(); ctx.arc(14, ly, 5, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.fillText('AI', 24, ly + 4);
     ctx.fillStyle = '#39FF14';
-    ctx.beginPath(); ctx.arc(50, ly, 3, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,0.45)';
-    ctx.fillText('Människa', 58, ly + 3);
-    ctx.fillStyle = 'rgba(255,255,255,0.2)';
-    ctx.fillText('· Gissningar inom zonen — outliers i sidopanel', 140, ly + 3);
+    ctx.beginPath(); ctx.arc(54, ly, 4, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.fillText('Människa', 64, ly + 4);
+    ctx.fillStyle = 'rgba(255,255,255,0.22)';
+    ctx.fillText('· Prick längre från centrum = sämre gissning  · Outliers listas under respektive radar', 160, ly + 4);
 
     frame++;
     requestAnimationFrame(draw2);
