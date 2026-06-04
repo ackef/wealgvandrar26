@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="sv">
 <head>
 <meta charset="UTF-8">
@@ -400,6 +400,109 @@
     .podium-block { width: 90px; }
     .podium-name { font-size: 1rem; }
   }
+  /* ===== COUNTERS + SLOT MACHINE ===== */
+  .counter-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 1.5rem 1rem 1rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.2s;
+    cursor: default;
+  }
+  .counter-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-3px); }
+  .counter-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: var(--c-accent, #39FF14);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 1s ease;
+  }
+  .counter-card.fired::after { transform: scaleX(1); }
+  .counter-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem; line-height: 1;
+    color: var(--c-accent, #39FF14);
+    text-shadow: 0 0 16px var(--c-accent, #39FF14);
+  }
+  .counter-label {
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-top: 0.4rem;
+  }
+  /* Slot machine card (replaces counter-card when active) */
+  .slot-card {
+    background: #0a0a12;
+    border: 2px solid var(--neon-orange);
+    border-radius: 10px;
+    padding: 0.6rem 0.5rem 0.5rem;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255,107,0,0.3), inset 0 0 20px rgba(0,0,0,0.5);
+    transition: box-shadow 0.2s;
+    display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+  }
+  .slot-card:hover { box-shadow: 0 0 35px rgba(255,107,0,0.5), inset 0 0 20px rgba(0,0,0,0.5); }
+  .slot-card.winner { border-color: var(--neon-green); box-shadow: 0 0 40px rgba(57,255,20,0.6), inset 0 0 20px rgba(0,0,0,0.5); }
+  .slot-title {
+    font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--neon-orange); margin-bottom: 0.4rem;
+    font-family: 'Space Mono', monospace;
+  }
+  .slot-card.winner .slot-title { color: var(--neon-green); }
+  .slot-reels {
+    display: flex; justify-content: center; gap: 4px;
+    margin-bottom: 0.4rem;
+  }
+  .slot-reels {
+    display: flex; justify-content: center; gap: 4px;
+    margin-bottom: 0.4rem; width: 100%;
+  }
+  .reel-window {
+    flex: 1;
+    height: 90px;
+    background: #02020E;
+    border: 2px solid rgba(255,255,255,0.18);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 14px rgba(0,0,0,0.8), 0 0 8px rgba(255,255,255,0.04);
+  }
+  .reel-window::before, .reel-window::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 22px; z-index: 2; pointer-events: none;
+  }
+  .reel-window::before { top: 0; background: linear-gradient(to bottom, #02020E 20%, transparent); }
+  .reel-window::after  { bottom: 0; background: linear-gradient(to top, #02020E 20%, transparent); }
+  /* Centre line highlight */
+  .reel-window::before { box-shadow: none; }
+  .reel-strip {
+    display: flex; flex-direction: column; align-items: center;
+    font-size: 2.4rem; line-height: 90px;
+    transition: none;
+  }
+  .reel-symbol { height: 90px; display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 0 4px rgba(255,255,255,0.3)); }
+  .slot-btn {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem; letter-spacing: 0.12em;
+    color: var(--neon-orange); cursor: pointer;
+    opacity: 0.9; transition: opacity 0.2s, text-shadow 0.2s;
+    text-shadow: 0 0 8px rgba(255,107,0,0.5);
+  }
+  .slot-card:hover .slot-btn { opacity: 1; text-shadow: 0 0 16px rgba(255,107,0,0.9); }
+  .slot-card.winner .slot-btn { color: var(--neon-green); text-shadow: 0 0 16px rgba(57,255,20,0.9); }
+  @keyframes hintPulse {
+    0%,100% { border-color: rgba(255,107,0,0.07); box-shadow: none; }
+    50%      { border-color: rgba(255,107,0,0.5); box-shadow: 0 0 14px rgba(255,107,0,0.3); }
+  }
+  .slot-counter-row {
+    font-size: 0.55rem; color: rgba(255,255,255,0.35);
+    letter-spacing: 0.15em; margin-top: 0.3rem;
+    font-family: 'Space Mono', monospace;
+  }
 </style>
 </head>
 <body>
@@ -419,6 +522,13 @@
   <!-- ÄLGSIMNING ANIMATION -->
   <div style="position:relative;width:100vw;left:50%;transform:translateX(-50%);margin-bottom:2rem;overflow:hidden;">
     <canvas id="riverCanvas" style="display:block;width:100%;"></canvas>
+  </div>
+
+  <div class="divider"><span>📈</span></div>
+
+  <!-- SPEEDOMETER COUNTERS -->
+  <div id="counters-section" style="padding:2rem 0 1rem;">
+    <div id="counters-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:900px;margin:0 auto;padding:0 1.5rem;"></div>
   </div>
 
   <div class="divider"><span>💡</span></div>
@@ -1392,6 +1502,189 @@ document.getElementById('insights-wide').appendChild(insightExtra);
   }
   draw2();
 })();
+// ===== COUNTERS + SLOT MACHINE =====
+(function(){
+  const COUNTERS = [
+    { label:'Deltagare',          value:15,  suffix:'',     accent:'#39FF14', id:'c0' },
+    { label:'Totalt antal älgar', value:42,  suffix:' 🫎',  accent:'#00F0FF', id:'c1' },
+    { label:'AI-modeller',        value:4,   suffix:' AI',  accent:'#FF2D78', id:'c2' },
+    { label:'Frågor',             value:8,   suffix:' st',  accent:'#FF6B00', id:'c3' },
+  ];
+  const SYMBOLS = ['🫎','🌲','🦌','🐻','🌿','❄️'];
+  const WINNER  = '🫎';
+  const grid = document.getElementById('counters-grid');
+  let spinning = false;
+  let spinCount = 0;
+  let slotMode = false;
+
+  // Build the 4 counter cards
+  COUNTERS.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = 'counter-card';
+    card.id = c.id;
+    card.style.setProperty('--c-accent', c.accent);
+    if (i === 3) {
+      card.title = 'Dubbelklicka för att spela!';
+      card.style.cursor = 'pointer';
+      card.innerHTML = `
+        <div class="counter-num" id="cnum-3">0${c.suffix}</div>
+        <div class="counter-label">${c.label}</div>
+        <div style="font-size:0.5rem;color:rgba(255,107,0,0.5);letter-spacing:0.15em;margin-top:0.3rem">DUBBELKLICKA</div>`;
+      card.addEventListener('dblclick', () => {
+        if (!slotMode && !card.dataset.fired) return; // not counted up yet
+        if (!slotMode) activateSlot();
+      });
+    } else {
+      card.innerHTML = `
+        <div class="counter-num" id="cnum-${i}">0${c.suffix}</div>
+        <div class="counter-label">${c.label}</div>`;
+    }
+    grid.appendChild(card);
+  });
+
+  // Scroll-trigger count-up for all 4 cards
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const card = e.target;
+      const idx = parseInt(card.id.slice(1));
+      const c = COUNTERS[idx];
+      if (card.dataset.fired) return;
+      card.dataset.fired = '1';
+      card.classList.add('fired');
+      io.unobserve(card);
+      animCount(idx, c.value, c.suffix, () => {
+        // After 4th card counts up, hint pulse
+        if (idx === 3) {
+          card.style.animation = 'hintPulse 0.6s ease 3';
+        }
+      });
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('.counter-card').forEach(el => io.observe(el));
+
+  function animCount(idx, target, suffix, onDone) {
+    const el = document.getElementById(`cnum-${idx}`);
+    if (!el) return;
+    const dur = 1400 + idx * 120;
+    const start = performance.now();
+    function tick(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const ease = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(ease * target) + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+      else { el.textContent = target + suffix; if (onDone) onDone(); }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // Transform all 4 cards into slot reels in place
+  function activateSlot() {
+    slotMode = true;
+    // Replace each counter-card's content with a reel + spin button on last
+    COUNTERS.forEach((c, i) => {
+      const card = document.getElementById(c.id);
+      if (!card) return;
+      card.className = 'slot-card';
+      card.style.cursor = i === 3 ? 'pointer' : 'default';
+      card.style.setProperty('--c-accent', c.accent);
+      if (i < 3) {
+        card.innerHTML = `
+          <div class="slot-title">REEL ${i+1}</div>
+          <div class="slot-reels">
+            <div class="reel-window" id="reel-${i}">
+              <div class="reel-strip" id="strip-${i}"></div>
+            </div>
+          </div>`;
+      } else {
+        // Last card: reel + spin button
+        card.innerHTML = `
+          <div class="slot-title">REEL 4</div>
+          <div class="slot-reels">
+            <div class="reel-window" id="reel-3">
+              <div class="reel-strip" id="strip-3"></div>
+            </div>
+          </div>
+          <div class="slot-btn" id="spinBtn">SNURRA</div>
+          <div class="slot-counter-row" id="spinCountEl">Försök: 0</div>`;
+        card.addEventListener('click', () => { if (!spinning) doSpin(); });
+      }
+      setSymbol(i, SYMBOLS[i % SYMBOLS.length]);
+    });
+  }
+
+  function setSymbol(reelIdx, symbol) {
+    const strip = document.getElementById(`strip-${reelIdx}`);
+    if (!strip) return;
+    strip.innerHTML = `
+      <div class="reel-symbol" style="opacity:0.2;height:90px;line-height:90px">${symbol}</div>
+      <div class="reel-symbol" style="height:90px;line-height:90px">${symbol}</div>
+      <div class="reel-symbol" style="opacity:0.2;height:90px;line-height:90px">${symbol}</div>`;
+  }
+
+  function doSpin() {
+    spinning = true;
+    spinCount++;
+    const countEl = document.getElementById('spinCountEl');
+    if (countEl) countEl.textContent = `Försök: ${spinCount}`;
+    const btn = document.getElementById('spinBtn');
+    if (btn) btn.textContent = '...';
+
+    const isJackpot = spinCount % 4 === 0;
+    const outcomes = isJackpot
+      ? [WINNER, WINNER, WINNER, WINNER]
+      : randomNonJackpot();
+
+    const promises = outcomes.map((sym, i) => spinReel(i, sym, 700 + i * 380));
+
+    Promise.all(promises).then(() => {
+      spinning = false;
+      if (btn) btn.textContent = 'SNURRA';
+      if (isJackpot) {
+        const cards = COUNTERS.map(c => document.getElementById(c.id));
+        cards.forEach(c => c && c.classList.add('winner'));
+        if (btn) btn.textContent = '🫎 JACKPOT!';
+        let f = 0;
+        const iv = setInterval(() => {
+          cards.forEach(c => { if (c) c.style.opacity = f%2===0 ? '0.5' : '1'; });
+          if (++f > 7) {
+            clearInterval(iv);
+            cards.forEach(c => { if (c) { c.style.opacity='1'; c.classList.remove('winner'); } });
+            if (btn) btn.textContent = 'SNURRA';
+          }
+        }, 140);
+      }
+    });
+  }
+
+  function randomNonJackpot() {
+    let r;
+    do { r = Array.from({length:4}, () => SYMBOLS[Math.floor(Math.random()*SYMBOLS.length)]); }
+    while (r.every(s => s === r[0]));
+    return r;
+  }
+
+  function spinReel(idx, finalSymbol, duration) {
+    return new Promise(resolve => {
+      const strip = document.getElementById(`strip-${idx}`);
+      if (!strip) { resolve(); return; }
+      const pool = [...SYMBOLS,...SYMBOLS,...SYMBOLS,...SYMBOLS];
+      const start = performance.now();
+      let lastSym = '';
+      function tick(now) {
+        const elapsed = now - start;
+        const t = Math.min(elapsed / duration, 1);
+        if (t >= 1) { setSymbol(idx, finalSymbol); resolve(); return; }
+        const speed = t < 0.65 ? 60 : 60 + ((t-0.65)/0.35) * 260;
+        const si = Math.floor(elapsed / speed) % pool.length;
+        const sym = pool[si];
+        if (sym !== lastSym) { setSymbol(idx, sym); lastSym = sym; }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+})();
+
 </script>
-</body>
-</html>
+
