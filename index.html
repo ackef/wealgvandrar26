@@ -435,29 +435,20 @@
   }
   /* Slot machine card (replaces counter-card when active) */
   .slot-card {
-    background: #0a0a12;
-    border: 2px solid var(--neon-orange);
+    background: #060610;
+    border: 1px solid rgba(255,255,255,0.12);
     border-radius: 10px;
     padding: 0.6rem 0.5rem 0.5rem;
     text-align: center;
     position: relative;
     cursor: pointer;
-    box-shadow: 0 0 20px rgba(255,107,0,0.3), inset 0 0 20px rgba(0,0,0,0.5);
-    transition: box-shadow 0.2s;
+    box-shadow: inset 0 0 24px rgba(0,0,0,0.7);
+    transition: box-shadow 0.2s, border-color 0.2s;
     display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
   }
-  .slot-card:hover { box-shadow: 0 0 35px rgba(255,107,0,0.5), inset 0 0 20px rgba(0,0,0,0.5); }
-  .slot-card.winner { border-color: var(--neon-green); box-shadow: 0 0 40px rgba(57,255,20,0.6), inset 0 0 20px rgba(0,0,0,0.5); }
-  .slot-title {
-    font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--neon-orange); margin-bottom: 0.4rem;
-    font-family: 'Space Mono', monospace;
-  }
-  .slot-card.winner .slot-title { color: var(--neon-green); }
-  .slot-reels {
-    display: flex; justify-content: center; gap: 4px;
-    margin-bottom: 0.4rem;
-  }
+  .slot-card:hover { border-color: rgba(255,255,255,0.22); box-shadow: inset 0 0 24px rgba(0,0,0,0.7), 0 0 12px rgba(255,255,255,0.06); }
+  .slot-card.winner { border-color: rgba(57,255,20,0.5); box-shadow: 0 0 20px rgba(57,255,20,0.3), inset 0 0 20px rgba(0,0,0,0.5); }
+  .slot-title { display: none; }
   .slot-reels {
     display: flex; justify-content: center; gap: 4px;
     margin-bottom: 0.4rem; width: 100%;
@@ -465,26 +456,42 @@
   .reel-window {
     flex: 1;
     height: 90px;
-    background: #02020E;
-    border: 2px solid rgba(255,255,255,0.18);
+    background: #F0EFE9;
+    border: 1px solid rgba(0,0,0,0.15);
     border-radius: 6px;
     overflow: hidden;
     position: relative;
-    box-shadow: inset 0 0 14px rgba(0,0,0,0.8), 0 0 8px rgba(255,255,255,0.04);
+    color-scheme: light;
   }
-  .reel-window::before, .reel-window::after {
-    content: ''; position: absolute; left: 0; right: 0; height: 22px; z-index: 2; pointer-events: none;
-  }
-  .reel-window::before { top: 0; background: linear-gradient(to bottom, #02020E 20%, transparent); }
-  .reel-window::after  { bottom: 0; background: linear-gradient(to top, #02020E 20%, transparent); }
-  /* Centre line highlight */
-  .reel-window::before { box-shadow: none; }
   .reel-strip {
     display: flex; flex-direction: column; align-items: center;
-    font-size: 2.4rem; line-height: 90px;
+    font-size: 3.4rem; line-height: 90px;
     transition: none;
+    position: relative; z-index: 5;
   }
-  .reel-symbol { height: 90px; display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 0 4px rgba(255,255,255,0.3)); }
+  .reel-symbol {
+    height: 90px; display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 5;
+  }
+
+  /* Slot arm */
+  .slot-arm-wrap {
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.12s ease;
+    transform-origin: bottom center;
+    filter: drop-shadow(0 0 6px rgba(180,0,0,0.7));
+  }
+  .slot-arm-wrap:hover { filter: drop-shadow(0 0 12px rgba(255,60,60,0.9)); }
+  .slot-arm-wrap.pulled { transform: rotate(30deg); }
+  .slot-arm-wrap.released {
+    animation: armReturn 0.35s ease-out forwards;
+  }
+  @keyframes armReturn {
+    0%   { transform: rotate(30deg); }
+    60%  { transform: rotate(-8deg); }
+    100% { transform: rotate(0deg); }
+  }
   .slot-btn {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1rem; letter-spacing: 0.12em;
@@ -494,7 +501,27 @@
   }
   .slot-card:hover .slot-btn { opacity: 1; text-shadow: 0 0 16px rgba(255,107,0,0.9); }
   .slot-card.winner .slot-btn { color: var(--neon-green); text-shadow: 0 0 16px rgba(57,255,20,0.9); }
-  @keyframes hintPulse {
+  .jackpot-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    letter-spacing: 0.1em;
+    color: var(--neon-green);
+    text-shadow: 0 0 20px rgba(57,255,20,1), 0 0 40px rgba(57,255,20,0.7), 0 0 80px rgba(57,255,20,0.4);
+    background: rgba(0,0,0,0.55);
+    border-radius: 10px;
+    z-index: 10;
+    pointer-events: none;
+    animation: jackpotPop 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  @keyframes jackpotPop {
+    from { opacity: 0; transform: scale(0.4) rotate(-6deg); }
+    to   { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
     0%,100% { border-color: rgba(255,107,0,0.07); box-shadow: none; }
     50%      { border-color: rgba(255,107,0,0.5); box-shadow: 0 0 14px rgba(255,107,0,0.3); }
   }
@@ -986,18 +1013,87 @@ document.getElementById('insights-wide').appendChild(insightExtra);
     });
   }
 
-  // Moose swimmers
+  // Moose hit counter
+  let mooseHits = 0;
+  let hitFlash = 0;
+  let counterVisible = false;
+  let missClicks = 0;
+  let skyMissClicks = 0;
+  const fishArr = [];
+  const birdArr = [];
+
+  canvas.style.cursor = 'crosshair';
+  canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) * dpr;
+    const my = (e.clientY - rect.top) * dpr;
+    let hitAny = false;
+    mooseArr.forEach(m => {
+      if (m._sinking || m._hit) return;
+      const bobY = Math.sin(m.bobPhase) * 4;
+      const dx = mx - m.x * dpr;
+      const dy = my - (m.y + bobY) * dpr;
+      const hitR = m.size * dpr * 0.75;
+      if (Math.sqrt(dx*dx + dy*dy) < hitR) {
+        mooseHits++;
+        hitFlash = 18;
+        m._splash = 12;
+        m._hit = true;
+        m._sinking = true;
+        m._sinkY = 0;       // how far sunk (px)
+        m._sinkAlpha = 1;
+        counterVisible = true;
+        hitAny = true;
+      }
+    });
+    // Water miss — only if click is in river zone and missed all moose
+    if (!hitAny) {
+      const clickY = my / dpr;
+      if (clickY > H * 0.38) { // in the water
+        missClicks++;
+        if (missClicks % 3 === 0) {
+          fishArr.push({
+            x: (mx / dpr),
+            y: H * 0.44 + Math.random() * H * 0.08,
+            speed: 0.3 + Math.random() * 0.4,
+            size: 20 + Math.random() * 10,
+          });
+        }
+      } else { // above waterline — sky click
+        skyMissClicks++;
+        if (skyMissClicks % 3 === 0) {
+          birdArr.push({
+            x: mx / dpr,
+            y: 0,             // start at top
+            vy: 2 + Math.random() * 2,  // fall speed
+            size: 22 + Math.random() * 10,
+            alpha: 1,
+            landed: false,
+            landY: H * 0.40 + Math.random() * H * 0.08,
+          });
+        }
+      }
+    }
+  });
+
+  // Moose swimmers — varied speeds
   const mooseEmoji = '🫎';
   const mooseCount = 5;
   const mooseArr = [];
+  const baseSpeed = [0.7, 1.1, 1.5, 1.9, 2.4]; // clearly different speeds
   for(let i=0;i<mooseCount;i++){
     mooseArr.push({
       x: -100 - i*220,
       y: H*0.30 + Math.random()*H*0.22,
-      speed: 1.1 + Math.random()*1.0,
+      speed: baseSpeed[i] + Math.random()*0.3,
       size: 28 + Math.random()*18,
       bobPhase: Math.random()*Math.PI*2,
       bobSpeed: 0.04 + Math.random()*0.03,
+      _splash: 0,
+      _hit: false,
+      _sinking: false,
+      _sinkY: 0,
+      _sinkAlpha: 1,
     });
   }
 
@@ -1111,11 +1207,38 @@ document.getElementById('insights-wide').appendChild(insightExtra);
     // Moose
     ctx.textBaseline = 'middle';
     mooseArr.forEach(m => {
+      if (m._sinking) {
+        // Sink animation — move down and fade
+        m._sinkY += 1.8;
+        m._sinkAlpha = Math.max(0, 1 - m._sinkY / (m.size * 1.4));
+        if (m._sinkAlpha <= 0) {
+          // Reset: come back from left, fresh
+          m.x = -120;
+          m._hit = false;
+          m._sinking = false;
+          m._sinkY = 0;
+          m._sinkAlpha = 1;
+          m._splash = 0;
+        }
+        const bobY = Math.sin(m.bobPhase) * 4;
+        ctx.save();
+        ctx.globalAlpha = m._sinkAlpha;
+        ctx.translate(m.x, m.y + bobY + m._sinkY);
+        ctx.font = `${m.size}px serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(mooseEmoji, 0, 0);
+        ctx.restore();
+        ctx.globalAlpha = 1;
+        return;
+      }
+
       m.x += m.speed;
       m.bobPhase += m.bobSpeed;
-      if(m.x > W + 120) m.x = -120;
+      if(m.x > W + 120) { m.x = -120; m._hit = false; }
       const bobY = Math.sin(m.bobPhase)*4;
-      // Wake ripple behind moose
+
+      // Wake ripple
       for(let r=0;r<3;r++){
         ctx.beginPath();
         ctx.ellipse(m.x - 20 - r*18, m.y + bobY + 14, 8+r*6, 3+r*2, 0, 0, Math.PI*2);
@@ -1123,17 +1246,160 @@ document.getElementById('insights-wide').appendChild(insightExtra);
         ctx.lineWidth = 0.8;
         ctx.stroke();
       }
+
+      // Splash when hit
+      if (m._splash > 0) {
+        const sp = m._splash / 12;
+        for (let s = 0; s < 8; s++) {
+          const sa = (s / 8) * Math.PI * 2;
+          const sr = (1 - sp) * 22;
+          ctx.beginPath();
+          ctx.arc(m.x + Math.cos(sa)*sr, m.y + bobY + Math.sin(sa)*sr*0.4, 2.5*sp, 0, Math.PI*2);
+          ctx.fillStyle = `rgba(144,224,239,${sp * 0.8})`;
+          ctx.fill();
+        }
+        m._splash--;
+      }
+
       ctx.save();
       ctx.translate(m.x, m.y + bobY);
       ctx.font = `${m.size}px serif`;
       ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
       ctx.fillText(mooseEmoji, 0, 0);
       ctx.restore();
     });
 
+    // Fish (upside-down, float at waterline)
+    fishArr.forEach(f => {
+      f.x += f.speed;
+      if (f.x > W + 60) f.x = -60;
+      ctx.save();
+      ctx.translate(f.x, f.y + Math.sin(t * 1.2 + f.x * 0.01) * 1.5);
+      ctx.scale(1, -1); // flip upside down
+      ctx.font = `${f.size}px serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.globalAlpha = 0.85;
+      ctx.fillText('🐟', 0, 0);
+      ctx.restore();
+      ctx.globalAlpha = 1;
+    });
+
+    // Birds falling from sky
+    for (let i = birdArr.length - 1; i >= 0; i--) {
+      const b = birdArr[i];
+      if (!b.landed) {
+        b.y += b.vy;
+        b.vy += 0.12; // gravity
+        if (b.y >= b.landY) {
+          b.y = b.landY;
+          b.landed = true;
+          b.vy = 0;
+          // Splash on landing
+          b._splash = 10;
+        }
+      } else {
+        // Float with waterline after landing, then slowly drift right and fade
+        b.x += 0.4;
+        b.alpha = Math.max(0, b.alpha - 0.003);
+        if (b._splash > 0) b._splash--;
+        if (b.alpha <= 0 || b.x > W + 60) { birdArr.splice(i, 1); continue; }
+      }
+
+      // Landing splash rings
+      if (b._splash > 0) {
+        const sp = b._splash / 10;
+        ctx.beginPath();
+        ctx.ellipse(b.x, b.landY + 6, (1-sp)*20, (1-sp)*5, 0, 0, Math.PI*2);
+        ctx.strokeStyle = `rgba(144,224,239,${sp * 0.6})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      ctx.save();
+      ctx.globalAlpha = b.alpha;
+      ctx.translate(b.x, b.y);
+      if (!b.landed) {
+        // Rotate slightly as falling
+        ctx.rotate(Math.sin(b.y * 0.1) * 0.3);
+      }
+      ctx.font = `${b.size}px serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🐦', 0, 0);
+      ctx.restore();
+      ctx.globalAlpha = 1;
+    }
+
+    // ── TV-style counter HUD (bottom-left) ──
+    if (hitFlash > 0) hitFlash--;
+    if (counterVisible) {
+      const hudX = 18, hudY = H - 18;
+      const hudW = 138, hudH = 46;
+      const isFlashing = hitFlash > 0 && hitFlash % 4 < 2;
+
+      // Outer light box with subtle shadow
+      ctx.shadowColor = 'rgba(0,0,0,0.4)';
+      ctx.shadowBlur = 8;
+      ctx.fillStyle = isFlashing ? '#FFFFFF' : '#ECEAE3';
+      roundRect(ctx, hudX, hudY - hudH, hudW, hudH, 5);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // Left moose icon box — slightly darker warm white
+      ctx.fillStyle = isFlashing ? '#D8D4C8' : '#C8C4BC';
+      roundRect(ctx, hudX + 2, hudY - hudH + 2, hudH - 4, hudH - 4, 4);
+      ctx.fill();
+
+      // Moose emoji — centred both axes in icon box
+      const iconCX = hudX + 2 + (hudH - 4) / 2;
+      const iconCY = hudY - hudH + 2 + (hudH - 4) / 2;
+      ctx.font = `${hudH - 10}px serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🫎', iconCX, iconCY);
+
+      // Divider line
+      ctx.strokeStyle = 'rgba(0,0,0,0.12)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(hudX + hudH, hudY - hudH + 4);
+      ctx.lineTo(hudX + hudH, hudY - 4);
+      ctx.stroke();
+
+      // Label "ÖVER ÄLVEN"
+      const labelColor = '#555550';
+      ctx.fillStyle = labelColor;
+      ctx.font = `bold 7px 'Space Mono', monospace`;
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'top';
+      ctx.fillText('ÖVER ÄLVEN', hudX + hudH + 7, hudY - hudH + 8);
+
+      // Counter number — vertically centred in lower 2/3 of right section
+      const numCY = hudY - hudH + 8 + (hudH - 8) * 0.62;
+      ctx.fillStyle = labelColor;
+      ctx.font = `bold 24px 'Bebas Neue', monospace`;
+      ctx.textBaseline = 'middle';
+      ctx.fillText(String(mooseHits).padStart(3, '0'), hudX + hudH + 6, numCY);
+
+      ctx.textBaseline = 'middle';
+    }
+
     t += 0.016;
     requestAnimationFrame(draw);
   }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x+r, y);
+    ctx.lineTo(x+w-r, y); ctx.arcTo(x+w, y, x+w, y+r, r);
+    ctx.lineTo(x+w, y+h-r); ctx.arcTo(x+w, y+h, x+w-r, y+h, r);
+    ctx.lineTo(x+r, y+h); ctx.arcTo(x, y+h, x, y+h-r, r);
+    ctx.lineTo(x, y+r); ctx.arcTo(x, y, x+r, y, r);
+    ctx.closePath();
+  }
+
   draw();
 })();
 
@@ -1581,45 +1847,101 @@ document.getElementById('insights-wide').appendChild(insightExtra);
   // Transform all 4 cards into slot reels in place
   function activateSlot() {
     slotMode = true;
-    // Replace each counter-card's content with a reel + spin button on last
+
+    // All 4 cards become pure reels
     COUNTERS.forEach((c, i) => {
       const card = document.getElementById(c.id);
       if (!card) return;
       card.className = 'slot-card';
-      card.style.cursor = i === 3 ? 'pointer' : 'default';
+      card.style.cursor = 'default';
       card.style.setProperty('--c-accent', c.accent);
-      if (i < 3) {
-        card.innerHTML = `
-          <div class="slot-title">REEL ${i+1}</div>
-          <div class="slot-reels">
-            <div class="reel-window" id="reel-${i}">
-              <div class="reel-strip" id="strip-${i}"></div>
-            </div>
-          </div>`;
-      } else {
-        // Last card: reel + spin button
-        card.innerHTML = `
-          <div class="slot-title">REEL 4</div>
-          <div class="slot-reels">
-            <div class="reel-window" id="reel-3">
-              <div class="reel-strip" id="strip-3"></div>
-            </div>
+      card.innerHTML = `
+        <div class="slot-reels">
+          <div class="reel-window" id="reel-${i}">
+            <div class="reel-strip" id="strip-${i}"></div>
           </div>
-          <div class="slot-btn" id="spinBtn">SNURRA</div>
-          <div class="slot-counter-row" id="spinCountEl">Försök: 0</div>`;
-        card.addEventListener('click', () => { if (!spinning) doSpin(); });
-      }
+        </div>`;
       setSymbol(i, SYMBOLS[i % SYMBOLS.length]);
+    });
+
+    // Inject arm + counter as a sibling to the right of the grid
+    const armEl = document.createElement('div');
+    armEl.id = 'slotArmContainer';
+    armEl.style.cssText = 'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;padding-left:0.5rem;cursor:pointer;';
+    armEl.innerHTML = `
+      <div id="spinBtn" class="slot-arm-wrap" title="Dra för att snurra">
+        <svg id="armSvg" viewBox="0 0 44 110" width="44" height="110" xmlns="http://www.w3.org/2000/svg">
+          <!-- Wall mount bracket -->
+          <rect x="14" y="88" width="16" height="14" rx="3"
+            fill="url(#mountGrad)" stroke="#888" stroke-width="1"/>
+          <!-- Arm shaft — chrome -->
+          <rect id="armShaft" x="19" y="22" width="6" height="68" rx="3"
+            fill="url(#shaftGrad)" stroke="#999" stroke-width="0.5"/>
+          <!-- Knob — classic red -->
+          <circle id="armKnob" cx="22" cy="16" r="11"
+            fill="url(#knobGrad)" stroke="#CC0000" stroke-width="1.5" filter="url(#glowRed)"/>
+          <!-- Knob shine -->
+          <ellipse cx="18" cy="11" rx="5" ry="3"
+            fill="rgba(255,255,255,0.35)" transform="rotate(-15,18,11)"/>
+          <!-- Knob shadow bottom -->
+          <ellipse cx="25" cy="21" rx="4" ry="2.5"
+            fill="rgba(0,0,0,0.25)" transform="rotate(15,25,21)"/>
+          <defs>
+            <linearGradient id="shaftGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%"   stop-color="#888"/>
+              <stop offset="30%"  stop-color="#EEE"/>
+              <stop offset="60%"  stop-color="#CCC"/>
+              <stop offset="100%" stop-color="#777"/>
+            </linearGradient>
+            <linearGradient id="mountGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#AAA"/>
+              <stop offset="100%" stop-color="#555"/>
+            </linearGradient>
+            <radialGradient id="knobGrad" cx="38%" cy="32%">
+              <stop offset="0%"   stop-color="#FF9999"/>
+              <stop offset="40%"  stop-color="#EE0000"/>
+              <stop offset="100%" stop-color="#880000"/>
+            </radialGradient>
+            <filter id="glowRed" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+        </svg>
+      </div>
+      <div class="slot-counter-row" id="spinCountEl">Försök: 0</div>`;
+
+    // Insert arm after the counters grid wrapper
+    grid.parentElement.style.cssText = 'padding:2rem 0 1rem;';
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'display:flex;align-items:center;max-width:900px;margin:0 auto;padding:0 1.5rem;gap:0;';
+    grid.style.flex = '1';
+    grid.parentNode.insertBefore(wrapper, grid);
+    wrapper.appendChild(grid);
+    wrapper.appendChild(armEl);
+
+    // Arm click
+    armEl.addEventListener('click', () => {
+      if (!spinning) {
+        const arm = document.getElementById('spinBtn');
+        if (arm) {
+          arm.classList.remove('released');
+          arm.classList.add('pulled');
+          setTimeout(() => {
+            arm.classList.remove('pulled');
+            arm.classList.add('released');
+          }, 150);
+        }
+        doSpin();
+      }
     });
   }
 
   function setSymbol(reelIdx, symbol) {
     const strip = document.getElementById(`strip-${reelIdx}`);
     if (!strip) return;
-    strip.innerHTML = `
-      <div class="reel-symbol" style="opacity:0.2;height:90px;line-height:90px">${symbol}</div>
-      <div class="reel-symbol" style="height:90px;line-height:90px">${symbol}</div>
-      <div class="reel-symbol" style="opacity:0.2;height:90px;line-height:90px">${symbol}</div>`;
+    const sym = (s) => `<div class="reel-symbol" style="height:90px;line-height:90px"><span style="display:inline-block;font-size:3.4rem;color:initial;-webkit-text-fill-color:initial;filter:none;opacity:1">${s}</span></div>`;
+    strip.innerHTML = sym(symbol) + sym(symbol) + sym(symbol);
   }
 
   function doSpin() {
@@ -1627,8 +1949,6 @@ document.getElementById('insights-wide').appendChild(insightExtra);
     spinCount++;
     const countEl = document.getElementById('spinCountEl');
     if (countEl) countEl.textContent = `Försök: ${spinCount}`;
-    const btn = document.getElementById('spinBtn');
-    if (btn) btn.textContent = '...';
 
     const isJackpot = spinCount % 4 === 0;
     const outcomes = isJackpot
@@ -1639,18 +1959,38 @@ document.getElementById('insights-wide').appendChild(insightExtra);
 
     Promise.all(promises).then(() => {
       spinning = false;
-      if (btn) btn.textContent = 'SNURRA';
       if (isJackpot) {
+        if (countEl) countEl.textContent = '🫎 JACKPOT! 🫎';
         const cards = COUNTERS.map(c => document.getElementById(c.id));
         cards.forEach(c => c && c.classList.add('winner'));
-        if (btn) btn.textContent = '🫎 JACKPOT!';
+
+        // Hide the arm
+        const arm = document.getElementById('spinBtn');
+        if (arm) arm.style.display = 'none';
+
+        // Disable further spinning permanently
+        spinning = true;
+
+        // Show JACKPOT overlay on all 4 cards
+        cards.forEach((c, i) => {
+          if (!c) return;
+          const overlay = document.createElement('div');
+          overlay.className = 'jackpot-overlay';
+          overlay.textContent = 'JACKPOT';
+          overlay.style.animationDelay = `${i * 0.12}s`;
+          c.style.position = 'relative';
+          c.appendChild(overlay);
+        });
+
         let f = 0;
         const iv = setInterval(() => {
           cards.forEach(c => { if (c) c.style.opacity = f%2===0 ? '0.5' : '1'; });
           if (++f > 7) {
             clearInterval(iv);
-            cards.forEach(c => { if (c) { c.style.opacity='1'; c.classList.remove('winner'); } });
-            if (btn) btn.textContent = 'SNURRA';
+            cards.forEach(c => {
+              if (c) { c.style.opacity = '1'; c.classList.remove('winner'); }
+            });
+            if (countEl) countEl.textContent = '🫎🫎🫎🫎';
           }
         }, 140);
       }
@@ -1687,4 +2027,5 @@ document.getElementById('insights-wide').appendChild(insightExtra);
 })();
 
 </script>
-
+</body>
+</html>
