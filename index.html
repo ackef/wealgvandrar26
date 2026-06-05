@@ -1021,6 +1021,13 @@ document.getElementById('insights-wide').appendChild(insightExtra);
   let skyMissClicks = 0;
   const fishArr = [];
   const birdArr = [];
+  let fishCount = 0;
+  let birdCount = 0;
+  let fishFlash = 0;
+  let birdFlash = 0;
+  let mooseEscaped = 0;
+  let escapeFlash = 0;
+  let escapeVisible = false;
 
   canvas.style.cursor = 'crosshair';
   canvas.addEventListener('click', (e) => {
@@ -1058,19 +1065,23 @@ document.getElementById('insights-wide').appendChild(insightExtra);
             speed: 0.3 + Math.random() * 0.4,
             size: 20 + Math.random() * 10,
           });
+          fishCount++;
+          fishFlash = 18;
         }
       } else { // above waterline — sky click
         skyMissClicks++;
         if (skyMissClicks % 3 === 0) {
           birdArr.push({
             x: mx / dpr,
-            y: 0,             // start at top
-            vy: 2 + Math.random() * 2,  // fall speed
+            y: 0,
+            vy: 2 + Math.random() * 2,
             size: 22 + Math.random() * 10,
             alpha: 1,
             landed: false,
             landY: H * 0.40 + Math.random() * H * 0.08,
           });
+          birdCount++;
+          birdFlash = 18;
         }
       }
     }
@@ -1235,7 +1246,15 @@ document.getElementById('insights-wide').appendChild(insightExtra);
 
       m.x += m.speed;
       m.bobPhase += m.bobSpeed;
-      if(m.x > W + 120) { m.x = -120; m._hit = false; }
+      if(m.x > W + 120) {
+        if (!m._hit) {
+          // Escaped without being hit
+          mooseEscaped++;
+          escapeFlash = 18;
+          escapeVisible = true;
+        }
+        m.x = -120; m._hit = false;
+      }
       const bobY = Math.sin(m.bobPhase)*4;
 
       // Wake ripple
@@ -1327,63 +1346,112 @@ document.getElementById('insights-wide').appendChild(insightExtra);
       ctx.font = `${b.size}px serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('🐦', 0, 0);
+      ctx.fillText('🦅', 0, 0);
       ctx.restore();
       ctx.globalAlpha = 1;
     }
 
-    // ── TV-style counter HUD (bottom-left) ──
-    if (hitFlash > 0) hitFlash--;
-    if (counterVisible) {
-      const hudX = 18, hudY = H - 18;
-      const hudW = 138, hudH = 46;
-      const isFlashing = hitFlash > 0 && hitFlash % 4 < 2;
-
-      // Outer light box with subtle shadow
+    // ── HUD helper ──
+    function drawHUD(x, y, w, h, emoji, label, count, flash) {
+      const isFlashing = flash > 0 && flash % 4 < 2;
       ctx.shadowColor = 'rgba(0,0,0,0.4)';
       ctx.shadowBlur = 8;
       ctx.fillStyle = isFlashing ? '#FFFFFF' : '#ECEAE3';
-      roundRect(ctx, hudX, hudY - hudH, hudW, hudH, 5);
+      roundRect(ctx, x, y - h, w, h, 5);
       ctx.fill();
       ctx.shadowBlur = 0;
 
-      // Left moose icon box — slightly darker warm white
+      // Icon box
       ctx.fillStyle = isFlashing ? '#D8D4C8' : '#C8C4BC';
-      roundRect(ctx, hudX + 2, hudY - hudH + 2, hudH - 4, hudH - 4, 4);
+      roundRect(ctx, x + 2, y - h + 2, h - 4, h - 4, 4);
       ctx.fill();
 
-      // Moose emoji — centred both axes in icon box
-      const iconCX = hudX + 2 + (hudH - 4) / 2;
-      const iconCY = hudY - hudH + 2 + (hudH - 4) / 2;
-      ctx.font = `${hudH - 10}px serif`;
+      // Emoji centred exactly in icon box
+      const iconBoxCX = x + 2 + (h - 4) / 2;
+      const iconBoxCY = y - h + 2 + (h - 4) / 2;
+      ctx.font = `${h - 10}px serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('🫎', iconCX, iconCY);
+      ctx.fillText(emoji, iconBoxCX, iconBoxCY);
 
-      // Divider line
+      // Divider
       ctx.strokeStyle = 'rgba(0,0,0,0.12)';
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.moveTo(hudX + hudH, hudY - hudH + 4);
-      ctx.lineTo(hudX + hudH, hudY - 4);
+      ctx.moveTo(x + h, y - h + 4);
+      ctx.lineTo(x + h, y - 4);
       ctx.stroke();
 
-      // Label "ÖVER ÄLVEN"
+      // Label
       const labelColor = '#555550';
       ctx.fillStyle = labelColor;
       ctx.font = `bold 7px 'Space Mono', monospace`;
       ctx.textAlign = 'left';
       ctx.textBaseline = 'top';
-      ctx.fillText('ÖVER ÄLVEN', hudX + hudH + 7, hudY - hudH + 8);
+      ctx.fillText(label, x + h + 7, y - h + 8);
 
-      // Counter number — vertically centred in lower 2/3 of right section
-      const numCY = hudY - hudH + 8 + (hudH - 8) * 0.62;
+      // Number
+      const numCY = y - h + 8 + (h - 8) * 0.62;
       ctx.fillStyle = labelColor;
       ctx.font = `bold 24px 'Bebas Neue', monospace`;
       ctx.textBaseline = 'middle';
-      ctx.fillText(String(mooseHits).padStart(3, '0'), hudX + hudH + 6, numCY);
-
+      ctx.fillText(String(count).padStart(3, '0'), x + h + 6, numCY);
       ctx.textBaseline = 'middle';
+    }
+
+    // ── Draw HUDs ──
+    if (hitFlash > 0) hitFlash--;
+    if (fishFlash > 0) fishFlash--;
+    if (birdFlash > 0) birdFlash--;
+    if (escapeFlash > 0) escapeFlash--;
+
+    const hudH = 46, hudW = 138, hudY = H - 18, hudGap = 8;
+    let hudCursor = 18;
+
+    if (escapeVisible) {
+      drawHUD(hudCursor, hudY, hudW, hudH, '🫎', 'ÖVER ÄLVEN', mooseEscaped, escapeFlash);
+      hudCursor += hudW + hudGap;
+    }
+    if (counterVisible) {
+      // Draw moose HUD with flipped emoji
+      const x = hudCursor, y = hudY, w = hudW, h = hudH, flash = hitFlash;
+      const isFlashing = flash > 0 && flash % 4 < 2;
+      ctx.shadowColor = 'rgba(0,0,0,0.4)'; ctx.shadowBlur = 8;
+      ctx.fillStyle = isFlashing ? '#FFFFFF' : '#ECEAE3';
+      roundRect(ctx, x, y - h, w, h, 5); ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = isFlashing ? '#D8D4C8' : '#C8C4BC';
+      roundRect(ctx, x + 2, y - h + 2, h - 4, h - 4, 4); ctx.fill();
+      // Flipped moose — centred exactly in icon box
+      ctx.save();
+      ctx.translate(x + 2 + (h - 4) / 2, y - h + 2 + (h - 4) / 2);
+      ctx.scale(1, -1);
+      ctx.font = `${h - 10}px serif`;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('🫎', 0, 0);
+      ctx.restore();
+      // Divider
+      ctx.strokeStyle = 'rgba(0,0,0,0.12)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x + h, y - h + 4); ctx.lineTo(x + h, y - 4); ctx.stroke();
+      // Label
+      ctx.fillStyle = '#555550';
+      ctx.font = `bold 7px 'Space Mono', monospace`;
+      ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+      ctx.fillText('EJ ÖVER ÄLVEN', x + h + 7, y - h + 8);
+      // Number
+      const numCY = y - h + 8 + (h - 8) * 0.62;
+      ctx.font = `bold 24px 'Bebas Neue', monospace`;
+      ctx.textBaseline = 'middle';
+      ctx.fillText(String(mooseHits).padStart(3, '0'), x + h + 6, numCY);
+      ctx.textBaseline = 'middle';
+      hudCursor += hudW + hudGap;
+    }
+    if (fishCount > 0) {
+      drawHUD(hudCursor, hudY, hudW, hudH, '🐟', 'I VATTNET', fishCount, fishFlash);
+      hudCursor += hudW + hudGap;
+    }
+    if (birdCount > 0) {
+      drawHUD(hudCursor, hudY, hudW, hudH, '🦅', 'NERPLOCKAD', birdCount, birdFlash);
     }
 
     t += 0.016;
